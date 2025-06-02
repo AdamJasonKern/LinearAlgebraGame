@@ -74,17 +74,12 @@ text below the lemma to see an explanation of this goal.
 /- Lemma
 For all natural numbers $n$, we have
 $$0 + n = n.$$
-
-
-
-induction n with d hd,
-  rw add_zero,
-  rw add_succ,
-  rw hd,
-
 -/
 Statement zero_add_1 (n : Nat) : 0 + n = n := by
-  sorry
+  induction n
+  simp
+  rw [Nat.add_succ]
+  rw [n_ih]
 
 
 Conclusion "

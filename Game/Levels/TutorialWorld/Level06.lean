@@ -20,13 +20,9 @@ then linarith will solve it. Linarith knows how to combine linear relations: it 
 
 /- Lemma : no-side-bar
 If $x y a b$ are natural numbers, and if $x < y$, $a < b$, then $ x + a <  y + b$.
-
-
-
-linarith
 -/
 Statement linarith (x y a b : Nat) (h1 : x < y) (h2: a < b) : x + a < y + b := by
-  sorry
+  exact Nat.add_lt_add h1 h2
 
 Conclusion "
 YAY!!!!

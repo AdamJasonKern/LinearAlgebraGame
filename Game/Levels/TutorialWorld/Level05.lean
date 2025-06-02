@@ -99,14 +99,9 @@ before it and comment it out. See that the proof still compiles.
 
 /- Lemma : no-side-bar
 If $x$ is a natural number, then $x\le 1+x$.
-
-
-rw le_iff_exists_add,
-  use 1,
-  ring,
 -/
 Statement one_add_le_self (x : Nat) : x ≤ 1 + x := by
-  sorry
+  exact Nat.le_add_left x 1
 
 Conclusion "
 ## Summary
