@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Wed May 28 19:35:20 2025\n"
+"POT-Creation-Date: Tue Jun  3 20:04:43 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -51,6 +51,32 @@ msgid "Demo World"
 msgstr ""
 
 #: Game.Levels.DemoWorld
+msgid "This introduction is shown before one enters level 1 of the demo world. Use markdown."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Hello World"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "This text is shown as first message when the level is played.\n"
+"You can insert hints in the proof below. They will appear in this side panel\n"
+"depending on the proof a user provides."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "If W is a subspace of V, then the zero vector (additive identity) of V is in W."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "This last message appears if the level is solved."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld
+msgid "Vector Space World"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld
 msgid "This introduction is shown before one enters level 1 of the demo world. Use markdown."
 msgstr ""
 
