@@ -13,5 +13,12 @@ Title "Tutorial World"
 
 Introduction
 "
-This introduction text is shown when one first enters a world.
+Welcome to the tutorial world! This world is designed to indroduce you to Lean 4.
+
+In this world, we start with proving 'x=x', and then move on to solve basic logic problems and
+simple theorems about the natural numbers.
+
+If you already know how to use Lean 4, you can skip this world, although we recommend playing through it.
+
+Click start to begin solving your first level!
 "

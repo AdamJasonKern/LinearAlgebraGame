@@ -2,93 +2,76 @@ import Game.Metadata
 
 World "TutorialWorld"
 Level 3
-Title "Level Three"
+Title "The `intro` and `exact`  tactics"
+
+/--
+## Summary
+Intro introduces a new hypothesis and changes your goal. If you have a goal of the form `P → Q`,
+`intro h` will change the goal to `Q` and create a new hypothesis `h : P`.
+
+## Example
+If your goal is `x = 1 → x + x = 2`, `intro h` will create the hypothesis `h: x = 1`, and change the
+goal to `x + x = 2`.
+
+## Other usage
+The `intro` tactic also works with goals using `∀` (\"for all\"). If your goal is of the form `∀ x : T, P`,
+`intro x` will create a new variable `x : T`, and change the goal to `P`.
+
+## Example
+If your goal is `∀ x : Nat, x ≥ 0`, `intro x` will create a variable `x : Nat`, and change the goal
+to `x ≥ 0`.
+-/
+TacticDoc intro
+
+/--
+## Summary
+If the goal is a statement `P`, then `exact h` will solve the goal if `h` is a proof of `P`.
+
+## Example
+If your goal is `x + 5 = 10`, and you have a hypothesis `h: x + 5 = 10`, then `exact h` will solve
+the goal.
+
+## Example
+If your goal is `x ⬝ y = 0 ↔ x ⟂ y`, and you have a theorem `dot_zero_iff_perp` that states the same
+thing, `exact dot_zero_iff_perp` will solve the goal.
+
+## exact? tactic
+`exact` has a variation, `exact?`, that is very useful. If your goal seems very obvious, and if you
+believe that there is a theorem or hypothesis that is exactly the same as your goal, `exact?` will
+attempt to fill in an `exact` tactic. This way, you don't have to memorize the exact statement of
+every theorem in order to finish a proof.
+However, with great power comes great responsibility, and using `exact?` too often can obscure how
+a proof actually works, and can lead you to being more confused than when you started.
+-/
+TacticDoc exact
+
+NewTactic intro exact
 
 Introduction "
-# Tutorial World
+In this level, we will introduct two tactics: `intro`, and `exact`
+Our goal is to prove that for any proposition (a True/False statement) `P`, we know that `P → P`.
+This means that `P` implies `P`.
 
-## Level 3: The `intro`, `exact` and `apply` tactics
+To explain what implication means more rigorously, if we know that `P → Q`, whenever `P` is True, we
+now know that `Q` must also be True. A computer scientist can consider a proof that `P → Q` as a function
+taking proofs of `P` to proofs of `Q`. In Lean, this means that we take an arbitrary proof of `P`,
+say `h: P` and we must construct a proof of `Q` from it.
 
-## Intro:
+### Intro
+This idea is exatly what the `intro` tactic does. If the goal is of the form `P → Q`, `intro h` will
+create a new hypothesis `h: P`, and change the goal into `Q`.
 
-`Intro` is a fundamental tactic dealing with propositions in Lean, and here you'll learn how to use it.
+### Exact
+The exact tactic is the other tactic you will need to solve this level. If you have a hypothesis that
+is exactly the same as the goal, the exact tactic will solve the goal. For example, if your goal is
+`P`, and you have a hypothesis `h: P`, `exact h` will solve the goal."
 
-If we have a true/false statement $P$, let's prove something trivial: $P implies P$.
-
-Constructing a term of type `P → P` in this case amounts to proving that $P implies P$,
-and computer scientists think of this as coming up with a function
-which sends proofs of $P$ to proofs of $P$.
-
-To define an implication $P implies Q$ we need to choose an arbitrary
-proof $p : P$ of $P$ and then construct a proof of $Q$, which is
-'let's assume $P$ is true'. In Lean, this is `intro p`, i.e.,
-'let's assume we have a proof of $P$' (note that this is the *lowercase* p).
-
-### Template:
-
-If your goal is to prove anything in the form of `P → Q` (i.e. that $P implies Q$),
-then `intro p`, meaning 'assume $p$ is a proof of $P$', will make progress.
-
-To solve the goal below, you have to come up with a function from
-`P` (thought of as the set of proofs of $P$!) to itself. Start with
-
-`intro p,`
-
-(i.e. 'let $p$ be a proof of $P$') and note that our
-local context now looks like this:
-
-```
-P : Prop,
-p : P
-⊢ P
-```
-
-Our job now is to construct a proof of $P$.
-
-## Exact:
-`Exact` is another fundamental tactic dealing with propositions. It signals that the expression given should fill the goal exactly. Suppose `h: P → Q` is a hypothesis
-that $P implies Q$, and `p: P` is a proof of `P`. Then `exact h(p)` will close the goal `⊢Q` (if we have a proof for P, namely `p`, then h(p) is a proof for Q).
-Yet, for most of the cases, you can use the `apply` tactic, will be introduced later, to substitute `exact`.
-
-Continue what we left there, we need to construct of proof for $P$. But, by assumption, $p$ is a proof of $P$.
-
-So, `exact p,` will close the goal.
-
-Note that `exact P` will not work -- don't
-confuse a true/false statement (which could be false!) with a proof.
-We will stick with the convention of capital letters for propositions
-and small letters for proofs.
-
-### Side Note:
-
-All of that rewriting you did with `rw` previously
-was rewriting hypothesis of the form `h : X = Y`, but
-you can also `rw h` if `h : P ↔ Q`.
-"
-
-/- Lemma : no-side-bar
-If $P$ is a proposition then $P\implies P$.
--/
-Statement imp_self (P : Prop) : P → P := by
-  intro p
-  exact p
+Statement (P : Prop) : P → P := by
+  Hint "First use `intro` to give yourself a new assumption and simplify the goal"
+  intro h
+  Hint "Now use `exact` to solve the goal"
+  exact h
 
 Conclusion "
-## Apply
-`Apply` is the last tactic we have for this level. The apply tactic tries to match the current goal against the conclusion of the type of term.
-The argument term should be a term well-formed in the local context of the main goal. In other words, `apply h` will simplify the goal by applying the
-hypothesis h (a proof) on it.
-
-(try using `apply p` above to close the lemma!)
--/
-
-/-
-
-## Summary
-
-· `exact p` means the proof p fill the goal exactly.
-
-· `intro p` means let's assume we have a proof of $P$.
-
-· `apply p` means let's use the implication described by p.
+You now know how to use the `intro` and `exact` tactics!
 "

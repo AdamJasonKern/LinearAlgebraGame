@@ -2,48 +2,56 @@ import Game.Metadata
 
 World "TutorialWorld"
 Level 1
-Title "Level One"
+Title "The rfl tactic"
+
+/--
+## Summary
+
+`rfl` proves goals of the form `X = X`.
+
+In other words, the `rfl` tactic will close any goal of the
+form `A = B` if `A` and `B` are *identical*.
+
+`rfl` is short for \"reflexivity (of equality)\".
+
+## Example:
+
+If the goal looks like this:
+
+```
+x + 37 = x + 37
+```
+
+then `rfl` will close it. But if it looks like `0 + x = x` then `rfl` won't work, because even
+though $0+x$ and $x$ are always equal as *numbers*, they are not equal as *terms*.
+The only term which is identical to `0 + x` is `0 + x`.
+
+## Details
+
+`rfl` is short for \"reflexivity of equality\".
+-/
+TacticDoc rfl
+
+NewTactic rfl
 
 Introduction "
+Most levels in this game will require you to prove a mathematical theorem. In the middle of the
+screen, you will see your \"Active Goal\", which includes \"Objects:\" `x:Nat` and a \"Goal\" `x=x`.
+In later levels, you may also get a \"Assumptions\" line. Your objects and assumptions are what you
+have to work with. In this case, we know that `x` is in  `Nat`, which means `x` is a natural number.
+From this, we have to prove our goal, that `x=x`.
 
-
-# Tutorial World
-Lean is a theorem prover and programming language launched by Leonardo de Moura at Microsoft Research in 2013.
-
-This world is made for students who have zero or little experience with
-Lean, aiming to provide a quick intro to Lean (Lean 3) and
-the tactics you will need to kickstart the Linear Algebra Game. If you've already played the Natural number game
-or feel comfortable with Lean, then you can probably skip to the next world.
-
-References: Kevin Buzzard's Natural Number Game (https://www.ma.imperial.ac.uk/~buzzard/xena/natural_number_game/).
-
-For additional resources on learning fundamentals of Lean, visit the site above.
-
-## Level 1: The refl tactic
-Let's start with two tactics: `rfl` and `rw`. `refl` stands for 'reflexivity'. Statements can be proved by `refl` when the left hand side is excatly the same as the
-right hand side ('definitionally equal'). And `rw` stands for 'rewrite', substituting the LHS of an equality in an hypothesis h with the RHS.
-
-For every theorem, your goal will be the mathematical statement with a `⊢` just before it.
-We will use tactics to manipulate and ultimately close these goals.
-
-Let's see how the `refl` tactic works, as a warm-up.
-
-The first step for every level in this game is to click on the word `sorry` and then delete it (it's just a filler word for syntax purposes).
-For this lemma, the `refl` tactic will close the goal, as both side are *exactly* the same.
--/
-
-For each level, the idea is to get Lean into this state: with the top right
-box saying 'Proof complete!' and the bottom right box empty (i.e. with no errors in).
+The first tactic we will use is the `rfl` tactic. `rfl` stands for \"reflexivity\". `rfl` will solve
+goals when the left side of an equation is the same as the right side, at least up to definitions.
 "
 
-/- Lemma : no-side-bar
-For all natural numbers $x$, we have $x = x$.
--/
-Statement demo (x : Nat) : x = x := by
+Statement (x : Nat) : x = x := by
+  Hint "Try typing 'rfl' into the text box below, then hit \"Execute\". This should finish the proof."
   rfl
 
-
-
 Conclusion "
-`refl` closes goals of the form `X = X`.
+You have now finished your first proof in Lean 4! In future levels, you can also use the 'rfl' tactic.
+You can click on the 'rfl' box on the right side to learn more about the 'rfl' tactic.
+
+Click on \"Next\" to go to the next level.
 "
