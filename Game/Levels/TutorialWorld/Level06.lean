@@ -2,28 +2,49 @@ import Game.Metadata
 
 World "TutorialWorld"
 Level 6
-Title "Level Six"
+Title "Level Eight"
 
 Introduction "
+Axiom : not_iff_imp_false (P : Prop) :
+¬ P ↔ P → false
+-/
+
+lemma not_iff_imp_false (P : Prop) : ¬ P ↔ P → false := iff.rfl -- hide
+
+/-
 # Tutorial World
 
-## Level 6: The `linarith` tactics
+## Level 8 : More on Proof By Contradiction
 
-Similar to the `ring` tactic, linarith (linear arithmatic）also aims to simplify the process of proofs.
-Specifically, it solves certain kinds of linear equalities and inequalities.
-Unlike the ring tactic, linarith uses hypotheses in the tactic state.
+## `exfalso`
+-/
 
-If you have a bunch of hypotheses like h1 : a < b, h2 : b <= c, h3 : c = d and a goal of a < d,
-then linarith will solve it. Linarith knows how to combine linear relations: it knows a ton of results about how to put inequalities together and will close such goals.
 
+/-
+
+
+It's certainly true that $P land( lnot P) implies Q$ for any propositions $P$
+and $Q$, because the left hand side of the implication is false. But how do
+we prove that `false` implies any proposition $Q$?
+
+A cheap way of doing it in
+Lean is using the `exfalso` tactic, which changes any goal at all to `false`.
+You might think this is a step backwards, but if you have a hypothesis `h : ¬ P`
+then after `rw not_iff_imp_false at h,` you can `apply h,` to make progress.
 "
 
 /- Lemma : no-side-bar
-If $x y a b$ are natural numbers, and if $x < y$, $a < b$, then $ x + a <  y + b$.
+If $P$ and $Q$ are true/false statements, then
+$$(P\land(\lnot P))\implies Q.$$
 -/
-Statement linarith (x y a b : Nat) (h1 : x < y) (h2: a < b) : x + a < y + b := by
-  exact Nat.add_lt_add h1 h2
+Statement (P Q : Prop) : (P ∧ ¬ P) → Q := by
+  intro h
+  cases h with
+  | intro p np =>
+  exfalso
+  apply np
+  exact p
 
 Conclusion "
-YAY!!!!
+The message shown when the level is completed
 "

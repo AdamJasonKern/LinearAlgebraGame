@@ -2,32 +2,44 @@ import Game.Metadata
 
 World "TutorialWorld"
 Level 4
-Title "Level Four"
+Title "The `constructor` tactic"
+
+
+/--
+## Summary
+
+The constructor tactic splits the goal into multiple parts. This is helpful for goals that are
+difficult to solve all at once, like "and" (`∧`) and "if and only if" (`↔`).
+
+## Example
+
+If we have the goal `P ∧ Q`, `constructor` will change the goal into two goals: `P` and `Q`.
+
+## Example
+
+If we have the goal`P ↔ Q`, `constructor` will change the goal into two goals: `P → Q`, and `Q → P`.
+-/
+TacticDoc constructor
+
+NewTactic constructor
 
 Introduction "
-# Tutorial World
-## Level 4: The `split`, `cases` tactics
+In this level we will learn `constructor` in the context of logical 'and' (∧).
+Our goal is to prove `P ∧ Q`, \"P and Q\", given hypotheses `p: P` and `q: Q`.
 
-In this level we will learn `split` and `cases` in the context of logical 'and' (∧) and 'or' (∨).
+### Constructor:
 
-## split:
-
-The logical symbol `∧` means 'and'. If $P$ and $Q$ are propositions, then
-$P land Q$ is the proposition '$P$ and $Q$'. If your *goal* is `P ∧ Q` then
-you can make progress with the `split` tactic, which turns one goal `⊢ P ∧ Q`
-into two goals, namely `⊢ P` and `⊢ Q`. In the level below, after a `split`,
-you will be able to finish off the goals with the `exact` or `apply` tactic.
+The `constructor` tactic works by splitting up the goal. If you have a goal `P ∧ Q`, the tactic makes
+progress by turning this one goal into two goals: to prove `P` and to prove `Q`. Constructor also
+works similarly for `↔` \"if and only if\" goals.
 "
 
-/- Lemma : no-side-bar
-If $P$ and $Q$ are true, then $P\land Q$ is true.
--/
 Statement (P Q : Prop) (p : P) (q : Q) : P ∧ Q := by
+  Hint "Try using `constructor` to split up the goal."
   constructor
+  Hint "Both remaining goals are exactly your hypotheses. What tactic can solve the goals?"
   exact p
   exact q
-
-
 
 Conclusion "
 The message shown when the level is completed

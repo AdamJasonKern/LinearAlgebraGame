@@ -2,113 +2,105 @@ import Game.Metadata
 
 World "TutorialWorld"
 Level 5
-Title "Level Five"
+Title "The `unfold` and `apply` tactics"
 
-Introduction "
-/-
-# Tutorial World
-## Level 5: The `Use` and `Ring` tactics
--/
-
-
-/-
-## Use:
-
-`use` is a tactic which works on goals of the form `⊢ ∃ c, P(c)` where
-`P(c)` is some proposition which depends on `c`. With a goal of this
-form, `use 0` will turn the goal into `⊢ P(0)`. `use x + y` (assuming
-`x` and `y` are natural numbers in your local context) will turn
-the goal into `P(x + y)` and so on.
--/
-
-/-
- If `a` and `b` are naturals, `a ≤ b` is *defined* to mean
-
-`∃ (c : ℕ), b = a + c`.
-
-So, we have the axiom, le_iff_exists_add (a b : ℕ)
-  a ≤ b ↔ ∃ (c : ℕ), b = a + c
-
-In words, $a le b$
-if and only if there exists a natural $c$ such that $b=a+c$.
-
-If you really want to change an `a ≤ b` to `∃ c, b = a + c` then
-you can do so with `rw le_iff_exists_add`:
-
-But because `a ≤ b` is *defined as* `∃ (c : ℕ), b = a + c`, you
-do not need to `rw le_iff_exists_add`, you can just pretend when you see `a ≤ b`
-that it says `∃ (c : ℕ), b = a + c`. You will see a concrete
-'example' of this below.
-
-A new construction like `∃` means that we need to learn how to manipulate it.
-There are two situations. Firstly we need to know how to solve a goal
-of the form `⊢ ∃ c, ...`, and secondly we need to know how to use a hypothesis
-of the form `∃ c, ...`.
-
-
-
-The goal below is to prove $x le 1+x$ for any natural number $x$.
-First let's turn the goal explicitly into an existence problem with
-
-`rw le_iff_exists_add,`
-
-and now the goal has become `∃ c : mynat, 1 + x = x + c`. Clearly
-this statement is true, and the proof is that $c=1$ will work (we also
-need the fact that addition is commutative, but we proved that a long
-time ago). How do we make progress with this goal?
-
-The `use` tactic can be used on goals of the form `∃ c, ...`. The idea
-is that we choose which natural number we want to use, and then we use it.
-So try
-
-`use 1,`
-
-and now the goal becomes `⊢ 1 + x = x + 1`. You can solve this by
-`exact add_comm 1 x`, or if you are lazy you can just use the `ring` tactic,
-which is a powerful AI which will solve any equality in algebra which can
-be proved using the standard rules of addition and multiplication. Now
-look at your proof. We're going to remove a line.
-
-
-## Ring:
-When dealing with equalities with basic algebraic manipulation, using the tactics we've described so far
-and relying on the axoims of addition and multiplication can be tedious sometimes.
-
-Here, we introduce the `ring` tactic, which can serve to reduce the tedium by closing
-some goals.
-
-The `ring` tactic proves identities in commutative rings such as (x+y)^2=x^2+2*x*y+y^2.
-It works on concrete rings such as ℝ and abstract rings, and will also prove some results in “semirings” such as ℕ.
-Note that ring does not and cannot look at hypotheses.
-
-Ring is a “finishing tactic”; this means that it should only be used to close goals.
-If ring does not close a goal it will issue a warning that you should use the related tactic ring_nf.
-
-
-
-## Important
-
-An important time-saver here is to note that because `a ≤ b` is *defined*
-as `∃ c : ℕ, b = a + c`, you *do not need to write* `rw le_iff_exists_add`.
-The `use` tactic will work directly on a goal of the form `a ≤ b`. Just
-use the difference `b - a` (note that we have not defined subtraction so
-this does not formally make sense, but you can do the calculation in your head).
-If you have written `rw le_iff_exists_add` below, then just put two dashes `--`
-before it and comment it out. See that the proof still compiles.
-"
-
-/- Lemma : no-side-bar
-If $x$ is a natural number, then $x\le 1+x$.
--/
-Statement one_add_le_self (x : Nat) : x ≤ 1 + x := by
-  exact Nat.le_add_left x 1
-
-Conclusion "
+/--
 ## Summary
 
-· `use` works on the goal. If your goal is `⊢ ∃ c : ℕ, 1 + x = x + c`
-then `use 1` will turn the goal into `⊢ 1 + x = x + 1`.
+If we have some object or function with some definition, `unfold object` will rewrite the object
+with its definition everywhere. Lean often unfolds terms automatically, but some tactics and definitions
+are not unfolded automatically. The `unfold` tactic also helps make it easier to take the next steps.
 
-· `ring` closes goals when goals can be proved by the ring algebra.
+## Example:
 
+If you have a goal `(P → Q) → (¬ Q → ¬ P)`, with `¬ P` (\"Not\" P) being defined as `P → False`,
+using `unfold Not` will change the goal to `(P → Q) → ((Q → False) → (P → False))`
+-/
+TacticDoc unfold
+
+/--
+## Summary
+
+If `t : P → Q` is a proof that $P \implies Q$, and `h : P` is a proof of `P`,
+then `apply t at h` will change `h` to a proof of `Q`. The idea is that if
+you know `P` is true, then you can deduce from `t` that `Q` is true.
+
+If the *goal* is `Q`, then `apply t` will \"argue backwards\" and change the
+goal to `P`. The idea here is that if you want to prove `Q`, then by `t`
+it suffices to prove `P`, so you can reduce the goal to proving `P`.
+
+### Example:
+
+`succ_inj x y` is a proof that `succ x = succ y → x = y`.
+
+So if you have a hypothesis `h : succ (a + 37) = succ (b + 42)`
+then `apply succ_inj at h` will change `h` to `a + 37 = b + 42`.
+You could write `apply succ_inj (a + 37) (b + 42) at h`
+but Lean is smart enough to figure out the inputs to `succ_inj`.
+
+### Example
+
+If the goal is `a * b = 7`, then `apply succ_inj` will turn the
+goal into `succ (a * b) = succ 7`.
+-/
+TacticDoc apply
+
+/--
+## Summary
+
+`intros` acts very similar to the `intro` tactic, except it allows you to introduce many new
+hypotheses/variables at once. `intros h1 h2 h3` essentially acts as `intro h1; intro h2; intro h3;`.
+
+## Example
+
+If your goal is `P → Q → (∀ x : Nat, R → (x = 5))`, `intros p q x r` will create hypotheses `p: P`,
+`q: Q`, `r: R`, and a variable `x: Nat`, and change the goal to `x = 5`.
+-/
+TacticDoc intros
+
+NewTactic unfold apply
+
+NewHiddenTactic intros
+
+Introduction "
+In this level, we will learn the `unfold` and `apply` tactics. Our goal is to prove `(P → Q) → (¬ Q → ¬ P)`,
+which looks very messy and difficult, but it can be slowly unfolded and broken down into simple steps.
+
+The first tactic we will need is `unfold`. You may notice the `¬` symbol appearing multiple times in
+the goal. This symbol means \"Not\", so `¬P` means \"not P\", or that P is false. In Lean, this is
+encoded as `P → False`.
+
+### Unfold
+The `unfold` tactic will unfold definitions. Think of it as a big `rw` tactic that rewrites something
+with it's definition everywhere. In this level, `unfold Not` will replace all the `¬ P`s with `P → False`.
+
+We know how to deal with statements of the form `P → Q` in the goal, but what happens if we have them
+as hypotheses? In this case, we will need the `apply` tactic.
+
+### Apply
+The `apply` tactic applies a hypothesis of the form `P → Q` to the goal. If your goal is `Q`, and
+you have a hypothesis `h: P → Q`, `apply h` will change the goal to `P`.
+"
+
+Statement (P Q : Prop) : (P → Q) → (¬ Q → ¬ P) := by
+  Hint "Try using `unfold Not` to unfold the definition of `¬`."
+  unfold Not
+  Hint "Now, since you goal is of the form `P → Q`, the `intro` tactic may help."
+  intro h1
+  Hint "You can still use the `intro` tactic because the goal is still of the form `P → Q`"
+  intro h2
+  intro h3
+  Hint "Now, try the `apply` tactic. Remember that if your goal is `Q`, you can use `apply h` when
+  h is a hypothesis or proof that `P → Q`."
+  apply h2
+  Hint "Again, try tthe `apply` tactic to change the goal."
+  apply h1
+  exact h3
+
+Conclusion "
+This theorem shows that a statement `P → Q` implies its contrapositive `¬Q → ¬P`. In fact, these
+two statements are the same, and you can prove `(P → Q) ↔ (¬ Q → ¬ P)`
+
+Also, instead of writing intro three times, you can write `intros h1 h2 h3`, and that will be the
+same as `intro h1; intro h2; intro h3`.
 "

@@ -2,22 +2,26 @@ import Game.Metadata
 
 World "TutorialWorld"
 Level 3
-Title "The `intro` and `exact`  tactics"
+Title "The `intro` and `exact` tactics"
 
 /--
 ## Summary
+
 Intro introduces a new hypothesis and changes your goal. If you have a goal of the form `P → Q`,
 `intro h` will change the goal to `Q` and create a new hypothesis `h : P`.
 
 ## Example
+
 If your goal is `x = 1 → x + x = 2`, `intro h` will create the hypothesis `h: x = 1`, and change the
 goal to `x + x = 2`.
 
 ## Other usage
+
 The `intro` tactic also works with goals using `∀` (\"for all\"). If your goal is of the form `∀ x : T, P`,
 `intro x` will create a new variable `x : T`, and change the goal to `P`.
 
 ## Example
+
 If your goal is `∀ x : Nat, x ≥ 0`, `intro x` will create a variable `x : Nat`, and change the goal
 to `x ≥ 0`.
 -/
@@ -25,17 +29,21 @@ TacticDoc intro
 
 /--
 ## Summary
+
 If the goal is a statement `P`, then `exact h` will solve the goal if `h` is a proof of `P`.
 
 ## Example
+
 If your goal is `x + 5 = 10`, and you have a hypothesis `h: x + 5 = 10`, then `exact h` will solve
 the goal.
 
 ## Example
+
 If your goal is `x ⬝ y = 0 ↔ x ⟂ y`, and you have a theorem `dot_zero_iff_perp` that states the same
 thing, `exact dot_zero_iff_perp` will solve the goal.
 
 ## exact? tactic
+
 `exact` has a variation, `exact?`, that is very useful. If your goal seems very obvious, and if you
 believe that there is a theorem or hypothesis that is exactly the same as your goal, `exact?` will
 attempt to fill in an `exact` tactic. This way, you don't have to memorize the exact statement of

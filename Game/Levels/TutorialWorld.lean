@@ -7,6 +7,7 @@ import Game.Levels.TutorialWorld.Level06
 import Game.Levels.TutorialWorld.Level07
 import Game.Levels.TutorialWorld.Level08
 import Game.Levels.TutorialWorld.Level09
+import Game.Levels.TutorialWorld.Level10
 
 World "TutorialWorld"
 Title "Tutorial World"
