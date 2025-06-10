@@ -1,8 +1,5 @@
-import Game.Metadata
+/-import Game.Metadata
 import Game.Levels.VectorSpaceWorld.Level01
-import Mathlib.Algebra.Module.Basic  -- import basic algebraic structures
-import Mathlib.Data.Set.Basic
-
 
 World "VectorSpaceWorld"
 Level 2
@@ -58,3 +55,4 @@ Statement subspace_neg {W : Set V} [Field K] [AddCommGroup V] [VectorSpace K V] 
 -- Level 5: SubspaceAxioms.lean
 
 Conclusion ""
+-/
