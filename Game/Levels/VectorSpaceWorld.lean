@@ -5,5 +5,6 @@ World "VectorSpaceWorld"
 Title "Vector Space World"
 
 Introduction "
-This introduction is shown before one enters level 1 of the demo world. Use markdown.
+Welcome to Vector Space World! In this world, you'll build up the basic theory of vector spaces
+through formal proofs in Lean.
 "

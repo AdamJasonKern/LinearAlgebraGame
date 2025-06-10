@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Tue Jun  3 20:04:43 2025\n"
+"POT-Creation-Date: Tue Jun 10 20:50:35 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -20,56 +20,167 @@ msgstr ""
 msgid "intermediate goal solved! 🎉"
 msgstr ""
 
-#: Game.Levels.DemoWorld.L01_HelloWorld
-msgid "Hello World"
-msgstr ""
-
-#: Game.Levels.DemoWorld.L01_HelloWorld
-msgid "This text is shown as first message when the level is played.\n"
-"You can insert hints in the proof below. They will appear in this side panel\n"
-"depending on the proof a user provides."
-msgstr ""
-
-#: Game.Levels.DemoWorld.L01_HelloWorld
-msgid "You can either start using `«{h}»` or `«{g}»`."
-msgstr ""
-
-#: Game.Levels.DemoWorld.L01_HelloWorld
-msgid "You should use `«{h}»` now."
-msgstr ""
-
-#: Game.Levels.DemoWorld.L01_HelloWorld
-msgid "You should use `«{g}»` now."
-msgstr ""
-
-#: Game.Levels.DemoWorld.L01_HelloWorld
-msgid "This last message appears if the level is solved."
-msgstr ""
-
-#: Game.Levels.DemoWorld
-msgid "Demo World"
-msgstr ""
-
-#: Game.Levels.DemoWorld
-msgid "This introduction is shown before one enters level 1 of the demo world. Use markdown."
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Vector Space Intro, zero scalar multiplication"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "Hello World"
+msgid "## Summary\n"
+"The `symm` tactic stands for symmetry of equality. It shows that if we know `a = b`, then `b = a`.\n"
+"\n"
+"## Example\n"
+"If your goal is `a = b`, `symm` will change the goal to `b = a`.\n"
+"\n"
+"## Example\n"
+"If you have a hypothesis `h: a = b`, `symm at h` will change the hypothesis to `h: b = a`.\n"
+"\n"
+"## Example\n"
+"If you have a theorem `add_dist: ∀ a b c, (a + b) * c = a * c + b * c`, and a goal `2 * x + 5 * x = y`,\n"
+"`rw[(add_dist 2 5 x).symm]` will change the goal to `(2 + 5) * x = y`."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "This text is shown as first message when the level is played.\n"
-"You can insert hints in the proof below. They will appear in this side panel\n"
-"depending on the proof a user provides."
+msgid "## Vector Space Definition\n"
+"\n"
+"We begin by defining a vector space over a field `K` with an abelian group `V`. This class includes four key axioms:\n"
+"\n"
+"```\n"
+"class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends SMul K V where\n"
+"  smul_add : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y           -- distributivity of scalar over vector addition\n"
+"  add_smul : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x           -- distributivity of scalar addition\n"
+"  mul_smul : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x)             -- compatibility of scalar multiplication\n"
+"  one_smul : ∀ (x : V), (1 : K) • x = x                                -- identity scalar acts as identity\n"
+"```\n"
+"\n"
+"This foundational structure will be used throughout all future levels. No proof is needed here\n"
+"— just understand the axioms and how they're represented. Note that to write the `•` character, type\n"
+"\"\\smul\"\n"
+"\n"
+"## Goal for this level\n"
+"\n"
+"In this level, you'll prove that multiplying a vector by the zero scalar (`0 : K`) results in the\n"
+"zero vector (`0 : V`). This is going to be a slightly involved proof, so it is important to get an\n"
+"understanding of the proof before beginning to write it.\n"
+"\n"
+"The first step of a normal proof would be writing `0 • w` as `(0 + 0) • w`, then using distributivity\n"
+"to get it as `0 • w + 0 • w`. Lastly, cancelling out a `0 • w` on each side gets `0 = 0 • w`.\n"
+"\n"
+"However, this proof relies on our assumptions and constructs the goal from them. This can be done in\n"
+"Lean, however, it requires using the `have` tactic, and is unnescessarily complex. In Lean, proofs are\n"
+"often done backwards, working from the goal and creating the hypotheses.\n"
+"\n"
+"Doing the proof backwards thus must first involve adding `0 • w` to both sides of the goal, undoing\n"
+"distributivity, then cancelling out some zeros.\n"
+"\n"
+"### add_right_cancel\n"
+"\n"
+"To use cancellation of addition, we need a new theorem, `add_right_cancel`. This theorem is a proof\n"
+"that `a + b = c + b → a = c`. Since your goal is of the form `a = c`, `apply add_right_cancel` will\n"
+"change the goal to `a + ?b = c + ?b`. However, you want to be able to write the value of `?b`, but\n"
+"in this case, Lean doesn't know what value you want to add. You can tell Lean what to add to the\n"
+"equation by `apply add_right_cancel (b := ????)`, replacing the question marks with whatever you\n"
+"want to add.\n"
+"\n"
+"### symm\n"
+"\n"
+"You will also need the `symm` tactic. `symm` stands for symmetry of equality, and it can be used to\n"
+"change goals of the form `a = b` to `b = a`. `symm at h` will also change a hypothesis `h: a = b` to\n"
+"`h: b = a`. However, neither of these uses are needed in this level. You may\n"
+"notice that if `h: a = b` is a hypothesis, rw[h] will rewrite all `a`s to `b`s. What if you want to\n"
+"rewrite all `b`s to `a`s, you can instead do `rw[h.symm]`.\n"
+"\n"
+"Also note that when the theorem has a `∀` symbol, as in `∀ a b : S, a + b = b + a`, you need to\n"
+"specify what `a` and `b` you mean to use before using `.symm`. For example, you would have to write\n"
+"`rw[(h 2 3).symm]`.\n"
+"\n"
+"One last hint is that when writing `0`, you often want to specify which zero you are talking about.\n"
+"We know that the natural numbers, for example, has a `0`, but so do the Field K and the Abelian Group\n"
+"V, and those `0`s are different. To specify which `0` you are talking about, write `(0 : K)` or `(0 : V)`."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "If W is a subspace of V, then the zero vector (additive identity) of V is in W."
+msgid "A vector space is a space over a field K with an abelian group V. It has four main properties:\n"
+"- Distributivity over vector addition,\n"
+"- Distributivity over scalar addition,\n"
+"- Compatibility of scalar multiplication,\n"
+"- Identity scalar acting as identity.\n"
+"\n"
+"In Lean, we define it as follows:\n"
+"'''\n"
+"class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends SMul K V where\n"
+"  smul_add : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y\n"
+"  add_smul : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x\n"
+"  mul_smul : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x)\n"
+"  one_smul : ∀ (x : V), (1 : K) • x = x\n"
+"'''"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "This last message appears if the level is solved."
+msgid "This is a proof that `0 • w = 0`, or that scaling any vector by `0` gives the zero vector.\n"
+"\n"
+"It is called \\\"zero_smul\\\", since you perform scalar multiplication by zero."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "`add_right_cancel` is a proof that `a + b = c + b → a = c`. You can tell Lean what to add to the\n"
+"equation by `apply add_right_cancel (b := ????)`."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "`smul_add` is one of the axioms of a vector space. It is a proof that if we know `vs : VectorSpace K V`,\n"
+"then `∀ (a : K) (x y : V), a • (x + y) = a • x + a • y`. It can be considered as right distributivity\n"
+"of scalar multiplication"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "`add_smul` is one of the axioms of a vector space. It is a proof that if we know `vs : VectorSpace K V`,\n"
+"then `∀ (a b : K) (x : V), (a + b) • x = a • x + b • x`. It can be considered as left distributivity\n"
+"of scalar multiplication."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "∀ (a b : K) (x : V), (a * b) • x = a • (b • x)\n"
+"`mul_smul` is one of the axioms of a vector space. It is a proof that if we know `vs : VectorSpace K V`,\n"
+"then `∀ (a b : K) (x : V), (a * b) • x = a • (b • x)`. It can be considered as associativity of scalar\n"
+"multiplication."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "`one_smul` is one of the axioms of a vector space. It is a proof that if we know `vs : VectorSpace K V`,\n"
+"then `∀ (x : V), (1 : K) • x = x`. It can be thought of as `1` being a multiplicative identity not\n"
+"only in `K`, but also through scalar multiplication in `V`."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "This is just so Lean doesn't get mad at me for having `symm` as a tactic when it is considered a theorem."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Remember, we are trying to prove this backwards. The last step in the normal proof was to\n"
+"cancel out 0 • w from both sides, so what should the first step of the backwards proof be?"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Try `apply add_right_cancel (b := (0 : K) • w)`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Now, there is a theorem we have from the vector space definition that can change the left\n"
+"side of the equation. Think about the second to last step in the normal proof. You may also need to\n"
+"use `.symm` here."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Try `rw[(add_smul (0 : K) (0 : K) w).symm]`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Now, we just have to cancel out zeros. You can prove this using some theorems, or there is a\n"
+"tactic we have already learned that can simplify everything and close the goal."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Try `simp`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld
@@ -77,7 +188,8 @@ msgid "Vector Space World"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld
-msgid "This introduction is shown before one enters level 1 of the demo world. Use markdown."
+msgid "Welcome to Vector Space World! In this world, you'll build up the basic theory of vector spaces\n"
+"through formal proofs in Lean."
 msgstr ""
 
 #: Game
