@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Tue Jun  3 20:04:43 2025\n"
+"POT-Creation-Date: Tue Jun 10 15:49:13 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -70,6 +70,18 @@ msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
 msgid "This last message appears if the level is solved."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level02
+msgid "Hello World"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level02
+msgid ""
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level02
+msgid ""
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld

@@ -1,0 +1,39 @@
+import Game.Metadata
+import Game.Levels.VectorSpaceWorld.Level10
+import Game.Levels.VectorSpaceWorld.Level13
+
+
+World "VectorSpaceWorld"
+Level 15
+
+Title "SubsetSuperset"
+
+Introduction "This text is shown as first message when the level is played.
+You can insert hints in the proof below. They will appear in this side panel
+depending on the proof a user provides."
+
+/-- **Level 15: Independence of Subsets**
+**Proposition 2.7(a):** Any subset of a linearly independent set is also linearly independent. -/
+theorem subset_linear_independent {A B : Set V} (hBsubA : B ⊆ A) (hA : linear_independent A) :
+    linear_independent B := by
+  intros s f hsB sum_zero v hv
+  -- Since s ⊆ B and B ⊆ A, we have s ⊆ A.
+  have hsA : ↑s ⊆ A := hsB.trans hBsubA
+  -- Now apply linear_independent A: all coefficients must be zero.
+  exact hA s f hsA sum_zero v hv
+
+/-- **Proposition 2.7(b):** If a set $A$ spans the whole space $V$, then any superset of $A$ also spans $V`. Adding more vectors can't reduce the span. -/
+theorem superset_span_full {A B : Set V} (hA : span A = (⊤ : Set V)) (hAsubB : A ⊆ B) :
+    span B = ⊤ := by
+  -- `span A = ⊤` means A is a spanning set for V (the entire space).
+  -- We want to show `span B = V` as well.
+  apply Set.eq_of_subset_of_subset
+  **-- First, show V ⊆ span B.**
+  · -- Since span A = V and A ⊆ B, every vector in V (which is in span A) is also in span B by monotonicity.
+    intro x hxV
+    have : x ∈ span A := by rwa [← hA]  -- hxV : x ∈ V (trivially true for any x of type V)
+    exact span_mono hAsubB this
+  **-- Second, show span B ⊆ V (this is always true, since V is the universe of discourse).**
+  · intro x hx
+    -- Any x in span B is by definition an element of V (because B ⊆ V and sums of elements of V are in V).
+    exact hx  -- (x : V, so x ∈ V automatically)

@@ -1,7 +1,7 @@
 import Game.Metadata
 import Game.Levels.VectorSpaceWorld.Level01
-import Mathlib.Algebra.Module.Basic  -- import basic algebraic structures
-import Mathlib.Data.Set.Basic
+--import Mathlib.Algebra.Module.Basic  -- import basic algebraic structures
+--import Mathlib.Data.Set.Basic
 
 
 World "VectorSpaceWorld"
