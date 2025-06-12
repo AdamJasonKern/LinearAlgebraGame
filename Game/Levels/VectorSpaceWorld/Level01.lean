@@ -3,7 +3,7 @@ import Game.Metadata
 World "VectorSpaceWorld"
 Level 1
 
-Title "Vector Space Intro, zero scalar multiplication"
+Title "Vector space intro, zero scalar multiplication"
 
 /--
 ## Summary
@@ -87,23 +87,16 @@ class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends SMul K V where
   smul_add : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y           -- distributivity of scalar over vector addition
   add_smul : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x           -- distributivity of scalar addition
   mul_smul : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x)             -- compatibility of scalar multiplication
-  one_smul : ∀ (x : V), (1 : K) • x = x
+  one_smul : ∀ (x : V) , (1 : K) • x = x
 
 /--
 A vector space is a space over a field K with an abelian group V. It has four main properties:
 - Distributivity over vector addition,
 - Distributivity over scalar addition,
-- Compatibility of scalar multiplication,
+- Associativity of scalar multiplication,
 - Identity scalar acting as identity.
 
-In Lean, we define it as follows:
-'''
-class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends SMul K V where
-  smul_add : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y
-  add_smul : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x
-  mul_smul : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x)
-  one_smul : ∀ (x : V), (1 : K) • x = x
-'''
+These properties can be found in the theorems tab as "smul_add", "add_smul", "mul_smul", and "one_smul".
 -/
 DefinitionDoc VectorSpace as "Vector Space"
 
@@ -114,9 +107,10 @@ variable (K V : Type)
 /--
 This is a proof that `0 • w = 0`, or that scaling any vector by `0` gives the zero vector.
 
-It is called \"zero_smul\", since you perform scalar multiplication by zero.
+It is called "zero_smul_v", since you perform scalar multiplication by zero. The "v" means that it is
+scalar multiplication of a vector.
 -/
-TheoremDoc zero_smul_v as "zero_smul" in "Vector Spaces"
+TheoremDoc zero_smul_v as "zero_smul_v" in "Vector Spaces"
 
 TheoremTab "Vector Spaces"
 
@@ -164,6 +158,9 @@ NewTheorem add_right_cancel VectorSpace.smul_add VectorSpace.add_smul VectorSpac
 TheoremTab "Groups"
 
 open VectorSpace
+/--
+In any vector space V over K, the scalar 0 multiplied by any vector gives the zero vector.
+-/
 Statement zero_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K V) (w : V) : (0 : K) • w = (0 : V) := by
   Hint "Remember, we are trying to prove this backwards. The last step in the normal proof was to
   cancel out 0 • w from both sides, so what should the first step of the backwards proof be?"
@@ -178,3 +175,5 @@ Statement zero_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K 
   tactic we have already learned that can simplify everything and close the goal."
   Hint (hidden := true) "Try `simp`"
   simp
+
+Conclusion "You have now proven your first theorem about vector spaces!"
