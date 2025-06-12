@@ -1,5 +1,6 @@
 import Game.Levels.VectorSpaceWorld.Level01
 import Game.Levels.VectorSpaceWorld.Level02
+import Game.Levels.VectorSpaceWorld.Level03
 
 World "VectorSpaceWorld"
 Title "Vector Space World"

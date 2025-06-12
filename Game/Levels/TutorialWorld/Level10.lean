@@ -31,7 +31,7 @@ goal before you can access the second one.
 TacticDoc induction'
 
 /--
-'add_succ' is a proof that `n + Nat.succ m = Nat.succ (n + m)`.
+'add_succ' is a proof that `n + succ m = succ (n + m)`.
 
 The reason for the name is that the theorem proves that adding the successor of a number is equal to
 the successor of addind that number.
@@ -46,7 +46,7 @@ The `induction'` tactic is a powerful tool to help you to prove statments involv
 It splits a proof into two cases: a base case and an inductive step. The base case is the smallest
 natural number you need to prove the proof for. The inductive step proves the theorem for all other
 numbers. In the inductive step, you can assume the theorem holds for some value `d`, and must then
-prove that it holds for `d + 1`, also written as `Nat.succ d`, the successor of `d`. Induction can
+prove that it holds for `d + 1`, also written as `succ d`, the successor of `d`. Induction can
 also be used to prove theorems about objects indexed my natural numbers, such as vectors whose
 dimension can be described by a natural number.
 
@@ -55,16 +55,16 @@ natural number in the proof, this will do induction on `n`, where `d` is the num
 theorem holds for in the inductive step, and `hd` is the induction hypothesis you will get.
 
 This level also uses a new theorem: `add_succ`. `add_succ` is a proof that
-`n + Nat.succ m = Nat.succ (n + m)`, for any `n, m : ℕ`.
+`n + succ m = succ (n + m)`, for any `n, m : ℕ`.
 "
-
+open Nat
 Statement (n : Nat) : 0 + n = n := by
   Hint "First, perform induction on `n`."
   induction' n with n h
   Hint "Now, for the base case, you need to prove a simple property of the naturals."
   simp
   Hint "You are adding the successor of a number here, try to simplify this using the new theorem!"
-  rw [Nat.add_succ]
+  rw [add_succ]
   Hint "Now, use the inductive hypothesis to finish the proof!"
   rw [h]
 
