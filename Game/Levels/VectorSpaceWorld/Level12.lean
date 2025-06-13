@@ -12,10 +12,11 @@ depending on the proof a user provides."
 
 
 
+variable (K V : Type) [Field K] [AddCommGroup V] [DecidableEq V] [VectorSpace K V]
 
 /-- **Level 12: Monotonicity of Span**
 If $A \subseteq B$ are sets of vectors, then `span A ⊆ span B`. In other words, a larger set of vectors can only have a larger (or equal) span. -/
-theorem span_mono {A B : Set V} (hAB : A ⊆ B) : span A ⊆ span B := by
+theorem span_mono {K V :Type} [Field K] [AddCommGroup V][VectorSpace K V]{A B : Set V} (hAB : A ⊆ B) : span K V A ⊆ span K V B := by
   intro x hxA
   -- x is in span A, so x is a linear combination of vectors from A.
   obtain ⟨s, f, hsA, hf0, rfl⟩ := hxA
