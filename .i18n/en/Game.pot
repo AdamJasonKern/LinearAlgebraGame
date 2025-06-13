@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Thu Jun 12 16:53:06 2025\n"
+"POT-Creation-Date: Fri Jun 13 18:22:34 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -740,7 +740,7 @@ msgid "## Summary\n"
 msgstr ""
 
 #: Game.Levels.TutorialWorld.Level10
-msgid "'add_succ' is a proof that `n + Nat.succ m = Nat.succ (n + m)`.\n"
+msgid "'add_succ' is a proof that `n + succ m = succ (n + m)`.\n"
 "\n"
 "The reason for the name is that the theorem proves that adding the successor of a number is equal to\n"
 "the successor of addind that number."
@@ -751,7 +751,7 @@ msgid "The `induction'` tactic is a powerful tool to help you to prove statments
 "It splits a proof into two cases: a base case and an inductive step. The base case is the smallest\n"
 "natural number you need to prove the proof for. The inductive step proves the theorem for all other\n"
 "numbers. In the inductive step, you can assume the theorem holds for some value `d`, and must then\n"
-"prove that it holds for `d + 1`, also written as `Nat.succ d`, the successor of `d`. Induction can\n"
+"prove that it holds for `d + 1`, also written as `succ d`, the successor of `d`. Induction can\n"
 "also be used to prove theorems about objects indexed my natural numbers, such as vectors whose\n"
 "dimension can be described by a natural number.\n"
 "\n"
@@ -760,7 +760,7 @@ msgid "The `induction'` tactic is a powerful tool to help you to prove statments
 "theorem holds for in the inductive step, and `hd` is the induction hypothesis you will get.\n"
 "\n"
 "This level also uses a new theorem: `add_succ`. `add_succ` is a proof that\n"
-"`n + Nat.succ m = Nat.succ (n + m)`, for any `n, m : ℕ`."
+"`n + succ m = succ (n + m)`, for any `n, m : ℕ`."
 msgstr ""
 
 #: Game.Levels.TutorialWorld.Level10
@@ -967,7 +967,11 @@ msgid "Try `simp`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "You have now proven your first theorem about vector spaces!"
+msgid "You have now proven your first theorem about vector spaces! One note: if you want to use\n"
+"one of the theorems you prove in one level in another level, the syntax will be\n"
+"`theorem_name fk acg vs theorem_args`. This is because we take as hypotheses in each level that\n"
+"K is a Field, V is an abelian group, and K V is a vector space. To use a theorem, we need to include\n"
+"proofs of those statements."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level02
@@ -1079,6 +1083,103 @@ msgid "We now have many theorems relating to vector spaces! In the next levels, 
 "the idea of a \"subspace\"."
 msgstr ""
 
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Zero must belong"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Now that we understand what a vector space is, and have proven a simple theorem about\n"
+"them, let's define what a subspace is. Intuitively, a subspace is a subset of a vector space that\n"
+"can be considered as a vector space itself. We define this as a subset `W : Set V` that is nonempty,\n"
+"is closed under addition, and is closed under scalar multiplication.\n"
+"\n"
+"### The `obtain` tactic\n"
+"A new tactic will help us solve problems with subspaces. While not necessary, and this tactic can\n"
+"even be completely replaced by the `cases'` tactic, it will simplify your proofs greatly. The `obtain`\n"
+"tactic essentially acts as repeating `cases'`. In this level, it has two main uses. First, if `hw : isSubspace W`\n"
+"is a hypothesis, then `obtain ⟨h1, h2, h3⟩ := hW` will split the definition into the three parts,\n"
+"labeled h1, h2, and h3. The other important use for `obtain` is if you have a hypothesis `hW : W.Nonempty`,\n"
+"then `obtain ⟨w, hw⟩ := hW` will give you a `w : V`, and a hypothesis `hw : w ∈ W`. Also, the \"⟨\"\n"
+"character is written with \"\\langle\", and the \"⟩\" character is written with \"\\rangle\".\n"
+"\n"
+"### Subspace contains zero\n"
+"One of the basic properties of a subspace is that it must be nonempty. In fact, every subspace must\n"
+"contain the zero vector. This is because for any vector in a subspace, you can multiply it by the zero\n"
+"scalar while still remaining in the subspace, which wil result in the zero vector. In this level, we\n"
+"formally prove this result."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "A subspace is a subset of a vector space that acts similarly to a vector space itself. It has three\n"
+"main properties:\n"
+"- Nonempty: a subspace cannot be empty\n"
+"- Closure under addition: adding any two elements of a subspace should remain in that subspace\n"
+"- Closure under scalar multiplication: scaling any vector in a subspace should remanin in that subspace\n"
+"\n"
+"Subspaces are formalized by having the `isSubspace` proposition, which simply combines the three\n"
+"properties into one proposition."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "## Summary\n"
+"The `obtain` tactic works very similar to repeating the `cases'` tactic. The `obtain` tactic splits a\n"
+"statement into cases, and allows you to name each case. Instead of splitting into two cases, like the\n"
+"`cases'` tactic, `obtain` can split into as many cases as necessary. The syntax looks like\n"
+"`obtain ⟨h1, h2, h3⟩ := h`.\n"
+"\n"
+"## Example\n"
+"If `hw : isSubspace W` is a hypothesis, then `obtain ⟨h1, h2, h3⟩ := hW` will split the definition\n"
+"into three parts, labeled h1, h2, and h3.\n"
+"\n"
+"## Example\n"
+"If you have a hypothesis `hW : W.Nonempty`, where `W : Set V` is a subset of `V`, then\n"
+"`obtain ⟨w, hw⟩ := hW` will give you a `w : V`, and a hypothesis `hw : w ∈ W`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "This is a proof that any subspace contains the zero vector."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "This is a proof that any subspace contains the zero vector."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Try to expand out your hypotheses using `obtain`."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Try `obtain ⟨h1, _h2, h3⟩ := hW`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Again, you can use `obtain` to simplify a hypothesis."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Try `obtain ⟨w, hw⟩ := «{h1}»`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "We know that `0 • w ∈ W`. If this was our goal, the level would be easy to solve."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Try `rw [(zero_smul_v fk acg vs «{w}»).symm]`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Now, apply the fact that subspaces are closed under scalar multiplication."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Try `apply «{h3}»`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level04
+msgid "Try `exact «{hw}»`"
+msgstr ""
+
 #: Game.Levels.VectorSpaceWorld
 msgid "Vector Space World"
 msgstr ""
@@ -1093,17 +1194,40 @@ msgid "Linear Algebra Game"
 msgstr ""
 
 #: Game
-msgid "This text appears on the starting page where one selects the world/level to play.\n"
-"You can use markdown."
+msgid "# Welcome to the Linear Algebra Game!\n"
+"\n"
+"This game works as a learning tool for linear algebra,\n"
+"based on the textbook \"Linear Algebra Done Right\" by Sheldon Axler. It also serves as an\n"
+"introduction to Lean 4, a proof assistant that provides an environment to encode proofs formally.\n"
+"\n"
+"Proofs in Lean can are written in precise syntax, using tactics and theorems, and can be algorithmically\n"
+"checked for correctness by a computer.\n"
+"\n"
+"This game covers many areas of linear algebra, including vector spaces, linear independence, bases,\n"
+"linear mappings, and isomorphisms.\n"
+"\n"
+"To start, click on \"Tutorial World\""
 msgstr ""
 
 #: Game
-msgid "Here you can put additional information about the game. It is accessible\n"
-"from the starting through the drop-down menu.\n"
+msgid "*Game version: 1.0*\n"
 "\n"
-"For example: Game version, Credits, Link to Github and Zulip, etc.\n"
+"## Progress saving\n"
 "\n"
-"Use markdown."
+"The game stores your progress in your local browser storage.\n"
+"If you delete it, your progress will be lost!\n"
+"\n"
+"Warning: In most browsers, deleting cookies will also clear the local storage\n"
+"(or \"local site data\"). Make sure to download your game progress first!\n"
+"\n"
+"## Credits\n"
+"\n"
+"* **Team:** Huiyu Chen, Adam Kern, Justin Morrill, and Letian Yang\n"
+"* **Project Manager:** Daniel Zhou\n"
+"* **Project Leader:** Professor Colleen Robles\n"
+"* **2023 Lean 3 Version:** Yannan Bai, Annapurna Bhattacharya, Chun-Hsien Hsu, Stavan Jain, Kurt Ma, Ricardo Prado Cunha, Anoushka Sinha\n"
+"* **Game Engine:** Alexander Bentkamp, Jon Eugster, Patrick Massot\n"
+"* **Inspiration:** Kevin Buzzard's Natural Number Game (https://adam.math.hhu.de/#/g/leanprover-community/nng4)"
 msgstr ""
 
 #: Game

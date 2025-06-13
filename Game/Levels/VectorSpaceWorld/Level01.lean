@@ -102,8 +102,6 @@ DefinitionDoc VectorSpace as "Vector Space"
 
 NewDefinition VectorSpace
 
-variable (K V : Type)
-
 /--
 This is a proof that `0 • w = 0`, or that scaling any vector by `0` gives the zero vector.
 
@@ -176,4 +174,8 @@ Statement zero_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K 
   Hint (hidden := true) "Try `simp`"
   simp
 
-Conclusion "You have now proven your first theorem about vector spaces!"
+Conclusion "You have now proven your first theorem about vector spaces! One note: if you want to use
+one of the theorems you prove in one level in another level, the syntax will be
+`theorem_name fk acg vs theorem_args`. This is because we take as hypotheses in each level that
+K is a Field, V is an abelian group, and K V is a vector space. To use a theorem, we need to include
+proofs of those statements."

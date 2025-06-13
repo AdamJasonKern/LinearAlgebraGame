@@ -21,8 +21,6 @@ scalar multiplication of a vector.
 -/
 TheoremDoc smul_zero_v as "smul_zero_v" in "Vector Spaces"
 
-variable (K V : Type)
-
 open VectorSpace
 /--
 In any vector space V over K, any scalar a multiplied by the zero vector gives the zero vector.
