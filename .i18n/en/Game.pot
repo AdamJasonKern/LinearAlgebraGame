@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Fri Jun 13 18:22:34 2025\n"
+"POT-Creation-Date: Fri Jun 13 18:43:27 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -1161,7 +1161,7 @@ msgid "Try `obtain ⟨w, hw⟩ := «{h1}»`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level04
-msgid "We know that `0 • w ∈ W`. If this was our goal, the level would be easy to solve."
+msgid "We know that `0 • «{w}» ∈ W`. If this was our goal, the level would be easy to solve."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level04
@@ -1178,6 +1178,50 @@ msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level04
 msgid "Try `exact «{hw}»`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Negatives in Subspace"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "The last theorem we will prove in Vector Space World is that subspaces contain the additive inverses\n"
+"of each of their elements. The proof is very similar to the previous level. You can try to solve it\n"
+"completely on your own, and if you get stuck, you can always press the \"Show more help!\" button to\n"
+"get the next step."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "This is a proof that if a subspace contains a vector `x`, it also contains `-x`."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Try `obtain ⟨_h1, _h2, h3⟩ := hW`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Try `obtain ⟨_h1, _h2, h3⟩ := hW`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Try `intros x hx`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Try `rw [(neg_one_smul_v fk acg vs «{x}»).symm]`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Try `apply «{h3}»`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "Try `exact «{hx}»`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level05
+msgid "You have now completed Vector Space World! The theorems proven here will be very helpful\n"
+"in future worlds. You can now move on to World 2: Linear Independence and Span World!"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld

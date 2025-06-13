@@ -18,10 +18,10 @@ This is a proof that if a subspace contains a vector `x`, it also contains `-x`.
 TheoremDoc subspace_neg as "subspace_neg" in "Vector Spaces"
 
 Statement subspace_neg (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K V) {W : Set V} (hW : isSubspace (K := K) (V := V) W) : ∀ (x : V), x ∈ W → (-x) ∈ W := by
-  Hint (hidden := true) "Try `obtain ⟨_h1, _h2, h3⟩ := hW`"
+  Hint (hidden := true) "Try `obtain ⟨h1, h2, h3⟩ := hW`"
   Branch
     intros _x _hx
-    Hint (hidden := true) "Try `obtain ⟨_h1, _h2, h3⟩ := hW`"
+    Hint (hidden := true) "Try `obtain ⟨h1, h2, h3⟩ := hW`"
   obtain ⟨_h1, _h2, h3⟩ := hW
   Hint (hidden := true) "Try `intros x hx`"
   intros x hx
