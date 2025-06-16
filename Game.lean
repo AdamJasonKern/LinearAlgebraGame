@@ -1,6 +1,6 @@
 import Game.Levels.TutorialWorld
 import Game.Levels.VectorSpaceWorld
-
+import Game.Levels.LinearIndependenceSpanWorld
 
 -- Here's what we'll put on the title screen
 Title "Linear Algebra Game"
