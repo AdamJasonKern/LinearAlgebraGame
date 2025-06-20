@@ -1,0 +1,21 @@
+{
+  "name": "linearalgebragame",
+  "version": "1.0.0",
+  "description": "This is a template for creating a game with [lean4game](https://github.com/leanprover-community/lean4game/). It contains a single Level plus the files needed for a local development setup.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamJasonKern/LinearAlgebraGame.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AdamJasonKern/LinearAlgebraGame/issues"
+  },
+  "homepage": "https://github.com/AdamJasonKern/LinearAlgebraGame#readme"
+}
