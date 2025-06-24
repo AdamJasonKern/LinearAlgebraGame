@@ -67,6 +67,8 @@ This is a proof that any subspace contains the zero vector.
 -/
 TheoremDoc subspace_contains_zero as "subspace_contains_zero" in "Vector Spaces"
 
+DisabledTactic simp linarith
+
 /--
 This is a proof that any subspace contains the zero vector.
 -/

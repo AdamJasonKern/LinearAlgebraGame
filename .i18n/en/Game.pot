@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Mon Jun 16 15:53:32 2025\n"
+"POT-Creation-Date: Tue Jun 24 11:42:35 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -866,6 +866,11 @@ msgid "## Vector Space Definition\n"
 "equation by `apply add_right_cancel (b := ????)`, replacing the question marks with whatever you\n"
 "want to add.\n"
 "\n"
+"### zero_add\n"
+"\n"
+"We also need to know some basic theorems about addition. For both the scalars and vectors, adding any\n"
+"vector to `0` will result in that vector. Simply `rw [zero_add]` will show this.\n"
+"\n"
 "### symm\n"
 "\n"
 "You will also need the `symm` tactic. `symm` stands for symmetry of equality, and it can be used to\n"
@@ -880,7 +885,14 @@ msgid "## Vector Space Definition\n"
 "\n"
 "One last hint is that when writing `0`, you often want to specify which zero you are talking about.\n"
 "We know that the natural numbers, for example, has a `0`, but so do the Field K and the Abelian Group\n"
-"V, and those `0`s are different. To specify which `0` you are talking about, write `(0 : K)` or `(0 : V)`."
+"V, and those `0`s are different. To specify which `0` you are talking about, write `(0 : K)` or `(0 : V)`.\n"
+"\n"
+"### Note on simp and linarith\n"
+"\n"
+"In this world, we are primarilly proving simple statements about vector spaces. This is exactly what\n"
+"the `simp` and `linarith` tactics are meant to do. In fact, the `simp` tactic alone would be able to\n"
+"solve the first three levels of this world. Because of this, you will not be able to use those tactics\n"
+"in this world."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
@@ -935,6 +947,14 @@ msgid "This is just so Lean doesn't get mad at me for having `symm` as a tactic 
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
+msgid "`zero_add` is a proof that `0 + x = x`. This holds whether `x` is in `K` or `V`."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "`add_zero` is a proof that `x + 0 = x`. This holds whether `x` is in `K` or `V`."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
 msgid "In any vector space V over K, the scalar 0 multiplied by any vector gives the zero vector."
 msgstr ""
 
@@ -958,12 +978,15 @@ msgid "Try `rw[(add_smul (0 : K) (0 : K) w).symm]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "Now, we just have to cancel out zeros. You can prove this using some theorems, or there is a\n"
-"tactic we have already learned that can simplify everything and close the goal."
+msgid "Now, we just have to cancel out zeros."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "Try `simp`"
+msgid "Try rw[zero_add]"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level01
+msgid "Try rw[zero_add]"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
@@ -1008,7 +1031,11 @@ msgid "Try `rw[(smul_add a (0 : V) (0 : V)).symm]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level02
-msgid "Try `simp`"
+msgid "Try `rw[zero_add]`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level02
+msgid "Try `rw[zero_add]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
@@ -1031,11 +1058,23 @@ msgid "We now understand scaling by `0` very well. We also have an axiom that sc
 "in your proof.\n"
 "You can also use the theorems proven in previous levels.\n"
 "\n"
-"### Strange error with `(one_smul v).symm`\n"
+"### Difficulty with `one_smul`\n"
 "You may eventually try to rewrite a vector `v` as `1 • v` in this level. However, trying\n"
 "`rw[(one_smul v).symm]` may run into errors. This is because `one_smul v` only takes an element of `V`\n"
 "as input, so Lean doesn't know which field \"K\" to use to get the \"1\" from. To fix this, try\n"
-"`one_smul (K := K) v` to tell Lean which \"K\" you are using."
+"`one_smul K v` to tell Lean which \"K\" you are using.\n"
+"\n"
+"### `neg_add_self` theorem\n"
+"In order to work with negatives, we also have the theorem `neg_add_self`. This is a proof that `-x + x = 0`.\n"
+"Similarly to `zero_add`, this theorem works in both K and V. This allows you to cancel out negatives."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level03
+msgid "`neg_add_self` is a proof that \"-x + x = 0. This holds whether x is in K or V."
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level03
+msgid "`neg_add_self` is a proof that \"-x + x = 0. This holds whether x is in K or V."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
@@ -1051,10 +1090,6 @@ msgid "Try `apply add_right_cancel (b := v)`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
-msgid "Try `simp`"
-msgstr ""
-
-#: Game.Levels.VectorSpaceWorld.Level03
 msgid "Remember the `nth_rw m [theorem]` tactic to only rewrite the mth instance."
 msgstr ""
 
@@ -1067,7 +1102,11 @@ msgid "Try `rw[(add_smul (-1 : K) (1 : K) v).symm]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
-msgid "Try `simp`"
+msgid "Try `rw[neg_add_self]`"
+msgstr ""
+
+#: Game.Levels.VectorSpaceWorld.Level03
+msgid "Try `rw[neg_add_self]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
@@ -1236,13 +1275,25 @@ msgid "Welcome to Vector Space World! In this world, you'll build up the basic t
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level01
-msgid "Hello World"
+msgid "Linear Combinations"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level01
-msgid "This text is shown as first message when the level is played.\n"
-"You can insert hints in the proof below. They will appear in this side panel\n"
-"depending on the proof a user provides."
+msgid "The first level of this world will introduce the definition of a linear combination. Let's\n"
+"say we want to express that some vector `x` is a linear combination of some set `S ⊆ V`. This means\n"
+"that there is some number of elements in `S`, that after some scalar multiplication, sums to `x`. We can\n"
+"call this set of elements summing to `x` `s`, where `s : Finset V`, and `↑s ⊆ S`. We are using Finset\n"
+"here, which means that `s` is a finite subset of V. This is because we can only sum in a way that makes\n"
+"sense over a finite set. If `s` was infinite, there could be multiple ways of summing it to get different\n"
+"answers., or a sum might not even exist. We also need to multiply every element of `s` by a scalar before\n"
+"summing, whether that scalar be `1`, `0`, or anything else. We can represent this by a function `f : V → K`,\n"
+"where each element of `s` gets mapped to the scalar we multiply by. Now, we are able to understand the\n"
+"definition of linear combinations:\n"
+"\n"
+"'''\n"
+"def is_linear_combination (S : Set V) (x : V) : Prop :=\n"
+"  ∃ (s : Finset V) (f : V → K), (↑s ⊆ S) ∧ (x = Finset.sum s (fun v => f v • v))\n"
+"'''"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level01

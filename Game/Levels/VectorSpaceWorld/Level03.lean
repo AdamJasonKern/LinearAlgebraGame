@@ -21,12 +21,30 @@ The defining property of `-v` is that `-v + v = 0`. The `simp` tactic can use th
 in your proof.
 You can also use the theorems proven in previous levels.
 
-### Strange error with `(one_smul v).symm`
+### Difficulty with `one_smul`
 You may eventually try to rewrite a vector `v` as `1 • v` in this level. However, trying
 `rw[(one_smul v).symm]` may run into errors. This is because `one_smul v` only takes an element of `V`
 as input, so Lean doesn't know which field \"K\" to use to get the \"1\" from. To fix this, try
-`one_smul (K := K) v` to tell Lean which \"K\" you are using.
+`one_smul K v` to tell Lean which \"K\" you are using.
+
+### `neg_add_self` theorem
+In order to work with negatives, we also have the theorem `neg_add_self`. This is a proof that `-x + x = 0`.
+Similarly to `zero_add`, this theorem works in both K and V. This allows you to cancel out negatives.
 "
+
+/--
+`neg_add_self` is a proof that "-x + x = 0. This holds whether x is in K or V.
+-/
+TheoremDoc neg_add_self as "neg_add_self" in "Groups"
+
+/--
+`neg_add_self` is a proof that "-x + x = 0. This holds whether x is in K or V.
+-/
+TheoremDoc add_neg_self as "add_neg_self" in "Groups"
+
+NewTheorem neg_add_self add_neg_self
+
+DisabledTactic simp linarith
 
 open VectorSpace
 /--
@@ -36,15 +54,15 @@ Statement neg_one_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace
   Hint "A good first step is cancelling out the `-v` term on the right."
   Hint (hidden := true) "Try `apply add_right_cancel (b := v)`"
   apply add_right_cancel (b := v)
-  Hint (hidden := true) "Try `simp`"
-  simp
   Hint "Remember the `nth_rw m [theorem]` tactic to only rewrite the mth instance."
   Hint (hidden := true) "Try `nth_rw 2 [(one_smul (K := K) v).symm]`"
-  nth_rw 2 [(one_smul (K := K) v).symm]
+  nth_rw 2 [(one_smul K v).symm]
   Hint (hidden := true) "Try `rw[(add_smul (-1 : K) (1 : K) v).symm]`"
   rw [(add_smul (-1 : K) (1 : K) v).symm]
-  Hint (hidden := true) "Try `simp`"
-  simp
+  Hint (hidden := true) "Try `rw[neg_add_self]`"
+  rw[neg_add_self]
+  Hint (hidden := true) "Try `rw[neg_add_self]`"
+  rw[neg_add_self]
   Hint "This looks like something we've done before. Either the `rw` or `exact` tactics should solve the goal"
   Hint (hidden := true) "Try `rw [zero_smul_v]`"
   rw [zero_smul_v]

@@ -17,6 +17,8 @@ This is a proof that if a subspace contains a vector `x`, it also contains `-x`.
 -/
 TheoremDoc subspace_neg as "subspace_neg" in "Vector Spaces"
 
+DisabledTactic simp linarith
+
 Statement subspace_neg (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K V) {W : Set V} (hW : isSubspace (K := K) (V := V) W) : ∀ (x : V), x ∈ W → (-x) ∈ W := by
   Hint (hidden := true) "Try `obtain ⟨h1, h2, h3⟩ := hW`"
   Branch
