@@ -1,0 +1,25 @@
+\section{ZeroMustBelong}
+
+
+\begin{definition}[Subspace]
+  \lean{Game.Subspace}
+  \leanok
+  A \emph{subspace} is a subset of a vector space that acts similarly to a vector space itself. It has three main properties:
+  \begin{itemize}
+    \item \textbf{Nonempty}:
+    W.Nonempty
+    \item \textbf{Closure\_Under\_Addition}:
+    ∀ (x y : V), x ∈ W → y ∈ W → x + y ∈ W
+    \item \textbf{Closure\_Under\_Scalar\_Multiplication}:
+    ∀ (a : K) (x : V), x ∈ W → a • x ∈ W
+  \end{itemize}
+\end{definition}
+
+\begin{theorem}
+  \label{theorem : subset_contains_zero}
+  \lean{Game.subset_contains_zero}
+  \leanok
+  \uses{definition : VectorSpace}
+  \uses{definition : Subspace}
+  This is a proof that any subspace contains the zero vector:(0 : V) ∈ W
+\end{theorem}

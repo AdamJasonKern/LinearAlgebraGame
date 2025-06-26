@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1750775577.42024 "print.tex" "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.pdf" "print" 1750775578.31538 0
-  "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.aux" 1750775578.06429 128 852fc3e86949e4a73cd552c13992dc37 "pdflatex"
-  "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.out" 1750775577.84618 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["pdflatex"] 1750953309.22137 "print.tex" "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.pdf" "print" 1750953310.14444 0
+  "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.aux" 1750953309.88958 1432 8a64e891e291a61180422f22dd84f389 "pdflatex"
+  "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.out" 1750953309.88995 1041 23c95c0c6737e660bdbbcae774155915 "pdflatex"
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -82,10 +82,16 @@
   "/usr/local/texlive/2024/texmf-dist/web2c/texmf.cnf" 1708706663 41649 5d6ae549fbbcb850a863f69aa41f3d10 ""
   "/usr/local/texlive/2024/texmf-var/web2c/xetex/xelatex.fmt" 1719595301 10850172 2aa288bbb1fc50ebf859e45fea4787e1 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "content.tex" 1750694306.82954 363 d68ec385ab7b5b65ef8d18eff416b83d ""
-  "macros/common.tex" 1750694306.83318 820 60fafcc3aa944a5e60030581a943ef6b ""
-  "macros/print.tex" 1750694306.83445 1101 87627b2ec24fef68edc71c13f43f7bab ""
-  "print.tex" 1750694306.83869 1168 0913c1901541302668f33d5452f64699 ""
+  "chapters/chapter1.tex" 1750953206.99098 190 0a93baff63f79e6fbecc8d94e5b4d501 ""
+  "chapters/chapter1/sheet1.tex" 1750950517.41081 846 81ff47f5a4d4398e9c7cfa925a534a2b ""
+  "chapters/chapter1/sheet2.tex" 1750953271.87111 303 8c36825c0e70ff45893c13a945215ca9 ""
+  "chapters/chapter1/sheet3.tex" 1750953295.09826 288 9b0d03019def59820e79009950bb939e ""
+  "chapters/chapter1/sheet4.tex" 1750952342.71317 777 deaa6a59a6f62cf4689dfa5931be4ef9 ""
+  "chapters/chapter1/sheet5.tex" 1750953293.08338 316 0670a60f47257b78e7c628589f4b4043 ""
+  "chapters/chapter2.tex" 1750949184.25931 33 c959d3d0be5b5a33bb07ad8b9a97bc5d ""
+  "content.tex" 1750865971.57042 416 3495a7b759a89e3fd13f11b712afcb28 ""
+  "macros/common.tex" 1750953213.50284 1130 b983309720d55653ae7161f7f1bf95fa ""
+  "print.tex" 1750781494.06531 1168 0913c1901541302668f33d5452f64699 ""
   (generated)
   "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.aux"
   "/Users/adamkern/Desktop/Duke/Sophmore Summer/LinearAlgebraGame/blueprint/print/print.log"
