@@ -17,6 +17,11 @@ instead of `V` is that `T` is an object of the type `Set V`, which is the same t
 we need a hypothesis  (hT : ∀ (x : V), x ∈ T), which means that any element of `V` is also in `T`.
 The other two hypotheses simply state that `B` is a superset of `A`, and that the span of `A` is `T`.
 The goal is to prove that the span of `B` is also `T`.
+
+### `Set.eq_of_subset_of_subset`
+When working with sets, a very useful theorem is `Set.eq_of_subset_of_subset`. This theorem shows that
+two sets are equal if and only if they are subsets of each other. So, if you have a goal of the form
+`A = B`, `apply Set.eq_of_subset_of_subset` will change the goal into two goals: `A ⊆ B`, and `B ⊆ A`.
 "
 
 /--
@@ -27,15 +32,23 @@ also spans `V`. The syntax requires a set `T : Set V` with the property `hT: ∀
 -/
 TheoremDoc superset_span_full as "superset_span_full" in "Vector Spaces"
 
-open VectorSpace
+/--
+`Set.eq_of_subset_of_subset` is a proof that `A = B` if and only if `A ⊆ B` and `B ⊆ A`. If you have
+a goal of the form `A = B`, `apply Set.eq_of_subset_of_subset` will change the goal into two goals:
+`A ⊆ B`, and `B ⊆ A`.
+-/
+TheoremDoc Set.eq_of_subset_of_subset as "eq_of_subset_of_subset" in "Sets"
+
+NewTheorem Set.eq_of_subset_of_subset
+
+open VectorSpace Set
 variable (K V : Type) [Field K] [AddCommGroup V] [DecidableEq V] [VectorSpace K V]
 
 /-- If a set $A$ spans the whole space $V$, then any superset of $A$ also spans $V`.-/
 Statement superset_span_full {A B T: Set V} (hT: ∀ (x : V), x ∈ T)(hA : T = span K V A) (hAsubB : A ⊆ B) :
     T = span K V B := by
-  Hint "Do you remember the theorem we used to prove two sets are equal?"
   Hint (hidden := true) "Try `apply Set.eq_of_subset_of_subset`"
-  apply Set.eq_of_subset_of_subset
+  apply eq_of_subset_of_subset
   Hint (hidden := true) "Try `rw [hA]`"
   rw [hA]
   Hint (hidden := true) "Try `exact span_mono K V hAsubB`"

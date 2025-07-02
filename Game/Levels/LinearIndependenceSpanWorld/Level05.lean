@@ -18,19 +18,7 @@ more of a \"forward reasoning\" approach to Lean proofs, as you can create new h
 ones, slowly changing your hypotheses to the goal, instead of changing your goal to the hypotheses.
 The syntax for a `have` statement is `have h : 0 • v = 0 := zero_smul_v v`. The `h` is the name of your
 new hypothesis, `0 • v = 0` is the statement of the hypothesis, and `zero_smul_v v` is the proof of the
-new hypothesis. You can also replace the proof with a `by` statement, which changes the goal to your
-new hypothesis, and lets you prove it as a normal goal. Using `by` is very helpful for more difficult
-statements. Also note that after using `by`, the tactics used to prove the hypothesis need to all be indented.
-However, while this does seem incredibly useful, and it is when you get stuck on a proof, it has many
-drawbacks. Firstly, `have` often creates unnecessarily complex proofs, where multiple steps are often
-taken when one step would work. Additionally, it is very easy to get lost in a sea of `have` statements,
-where you eventually are trying to prove a `have` statement within a `have` statement within a `have`
-statement, and you lose track of the actual goal, and forget how your `have` statements will actually help.
-Lastly, this game template does not work well with `have` statements. Since you often need to include
-a multiple line proof after using `by`, the game may get confused, as it prefers tactics to only be one
-line. To fix this, you can enter editor mode (click the top right button that looks like \"<\\>\"). This
-allows you to write the entire proof at once, and allows you to do multiple line steps (although remember
-to indent the proof following the `by` statement).
+new hypothesis. You can read more about the tactic on the right side of the screen.
 "
 
 /--

@@ -3,6 +3,9 @@ import Game.Levels.LinearIndependenceSpanWorld.Level02
 import Game.Levels.LinearIndependenceSpanWorld.Level03
 import Game.Levels.LinearIndependenceSpanWorld.Level04
 import Game.Levels.LinearIndependenceSpanWorld.Level05
+import Game.Levels.LinearIndependenceSpanWorld.Level06
+import Game.Levels.LinearIndependenceSpanWorld.Level07
+import Game.Levels.LinearIndependenceSpanWorld.Level08
 
 World "LinearIndependenceSpanWorld"
 Title "Linear Independence and Span World"

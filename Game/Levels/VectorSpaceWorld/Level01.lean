@@ -158,10 +158,9 @@ only in `K`, but also through scalar multiplication in `V`.
 TheoremDoc one_smul as "one_smul" in "Vector Spaces"
 
 /--
-This is just so Lean doesn't get mad at me for having `symm` as a tactic when it is considered a theorem.
+`symm` is a proof that `a = b` if and only if `b = a`
 -/
 TheoremDoc symm as "symm" in "Lean"
-
 /--
 `zero_add` is a proof that `0 + x = x`. This holds whether `x` is in `K` or `V`.
 -/
