@@ -47,10 +47,12 @@ NewTheorem neg_add_self add_neg_self
 DisabledTactic simp linarith
 
 open VectorSpace
+variable (K V : Type) [Field K] [AddCommGroup V] [DecidableEq V] [VectorSpace K V]
+
 /--
 In any vector space V over K, multiplying a vector by -1 gives its additive inverse.
 -/
-Statement neg_one_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K V) (v : V) : (-1 : K) • v = -v := by
+Statement neg_one_smul_v (v : V) : (-1 : K) • v = -v := by
   Hint "A good first step is cancelling out the `-v` term on the right."
   Hint (hidden := true) "Try `apply add_right_cancel (b := v)`"
   apply add_right_cancel (b := v)
@@ -64,8 +66,8 @@ Statement neg_one_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace
   Hint (hidden := true) "Try `rw[neg_add_self]`"
   rw[neg_add_self]
   Hint "This looks like something we've done before. Either the `rw` or `exact` tactics should solve the goal"
-  Hint (hidden := true) "Try `rw [zero_smul_v]`"
-  rw [zero_smul_v]
+  Hint (hidden := true) "Try `exact zero_smul_v K V v`"
+  exact zero_smul_v K V v
 
 Conclusion "We now have many theorems relating to vector spaces! In the next levels, we will introduce
 the idea of a \"subspace\"."

@@ -133,14 +133,14 @@ you have functions `f : A → B`, and `g : A → B`, and some set `s : Finset A`
 TheoremDoc Finset.sum_sub_distrib as "sum_sub_distrib" in "Sets"
 
 /--
-`subset_union_left` is a proof that if `a b : Finset S` are sets, then `a ⊆ a ∪ b`.
+`Finset.subset_union_left` is a proof that if `a b : Finset S` are sets, then `a ⊆ a ∪ b`.
 -/
-TheoremDoc Finset.subset_union_left as "subset_union_left" in "Sets"
+TheoremDoc Finset.subset_union_left as "Finset.subset_union_left" in "Sets"
 
 /--
-`subset_union_right` is a proof that if `a b : Finset S` are sets, then `b ⊆ a ∪ b`.
+`Finset.subset_union_right` is a proof that if `a b : Finset S` are sets, then `b ⊆ a ∪ b`.
 -/
-TheoremDoc Finset.subset_union_right as "subset_union_right" in "Sets"
+TheoremDoc Finset.subset_union_right as "Finset.subset_union_right" in "Sets"
 
 /--
 `sum_subset` is a proof that if you have a function that is zero outside of some set, then a sum
@@ -175,7 +175,7 @@ must be equal. In this case, this prooves that functions will be equal.
 -/
 TheoremDoc linear_combination_unique as "linear_combination_unique" in "Vector Spaces"
 
-NewTheorem Finset.coe_union Set.union_subset Finset.sum_add_distrib Finset.sum_sub_distrib Finset.subset_union_left Finset.subset_union_right Finset.sum_subset sub_smul sub_eq_zero Finset.not_mem_union --Set.subset_union_left Set.subset_union_right
+NewTheorem Finset.coe_union Set.union_subset Finset.sum_add_distrib Finset.sum_sub_distrib Finset.subset_union_left Finset.subset_union_right Finset.sum_subset sub_smul sub_eq_zero Finset.not_mem_union
 
 NewTactic by_cases funext specialize
 
@@ -241,8 +241,8 @@ f = g := by
       intros v _hv1 hv2
       Hint (hidden := true) "Try `    rw[hf0 v hv2]`"
       rw[hf0 v hv2]
-      Hint (hidden := true) "Try `    exact zero_smul K v`"
-      exact zero_smul K v
+      Hint (hidden := true) "Try `    exact zero_smul_v K V v`"
+      exact zero_smul_v K V v
 
     Hint (hidden := true) "Try `  have hgprod0 : ∀ v ∈ s ∪ t,  v ∉ t → g v • v = 0 := by`"
     have hgprod0 : ∀ v ∈ s ∪ t,  v ∉ t → g v • v = 0 := by
@@ -250,8 +250,8 @@ f = g := by
       intros v _hv1 hv2
       Hint (hidden := true) "Try `    rw[hg0 v hv2]`"
       rw[hg0 v hv2]
-      Hint (hidden := true) "Try `    exact zero_smul K v`"
-      exact zero_smul K v
+      Hint (hidden := true) "Try `    exact zero_smul_v K V v`"
+      exact zero_smul_v K V v
 
     Hint (hidden := true) "Try `  rw [(sum_subset (f := fun v => f v • v) (subset_union_left s t) hfprod0).symm]`"
     rw [(sum_subset (f := fun v => f v • v) (subset_union_left s t) hfprod0).symm]

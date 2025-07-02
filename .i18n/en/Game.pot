@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Tue Jul  1 16:55:34 2025\n"
+"POT-Creation-Date: Wed Jul  2 14:42:54 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -827,19 +827,25 @@ msgstr ""
 #: Game.Levels.VectorSpaceWorld.Level01
 msgid "## Vector Space Definition\n"
 "\n"
-"We begin by defining a vector space over a field `K` with an abelian group `V`. This class includes four key axioms:\n"
+"We begin by defining a vector space `V` over a field `K` as an abelian group with four key axioms:\n"
 "\n"
 "```\n"
-"class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends SMul K V where\n"
-"  smul_add : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y           -- distributivity of scalar over vector addition\n"
-"  add_smul : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x           -- distributivity of scalar addition\n"
-"  mul_smul : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x)             -- compatibility of scalar multiplication\n"
-"  one_smul : ∀ (x : V), (1 : K) • x = x                                -- identity scalar acts as identity\n"
+"class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends Module K V where\n"
+"  smul_add_explicit : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y := smul_add -- Distributivity over vector addition\n"
+"  add_smul_explicit : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x := add_smul -- Distributivity over scalar addition\n"
+"  mul_smul_explicit : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x) := mul_smul -- Associativity of `•` and `*`\n"
+"  one_smul_explicit : ∀ (x : V), (1 : K) • x = x := one_smul -- The multiplicitave identity acts as an identity\n"
 "```\n"
 "\n"
-"This foundational structure will be used throughout all future levels. No proof is needed here\n"
-"— just understand the axioms and how they're represented. Note that to write the `•` character, type\n"
-"\"\\smul\"\n"
+"This foundational structure will be used throughout all future levels. We are also using Mathlib's `Module`,\n"
+"`Field`, and `AddCommGroup` definitions, which lets us use notation such as `-a` and `a⁻¹`, and includes\n"
+"many helpful theorems that we will not need to prove ourselves.\n"
+"\n"
+"Note that to write the `•` character, type\n"
+"\"\\smul\".\n"
+"\n"
+"Also, note that there is some strange `inst†` text in your objects. This simply means that your objects\n"
+"are instances of certain classes, for example that K V is a vector space.\n"
 "\n"
 "## Goal for this level\n"
 "\n"
@@ -943,7 +949,7 @@ msgid "`one_smul` is one of the axioms of a vector space. It is a proof that if 
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "This is just so Lean doesn't get mad at me for having `symm` as a tactic when it is considered a theorem."
+msgid "`symm` is a proof that `a = b` if and only if `b = a`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
@@ -991,10 +997,8 @@ msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
 msgid "You have now proven your first theorem about vector spaces! One note: if you want to use\n"
-"one of the theorems you prove in one level in another level, the syntax will be\n"
-"`theorem_name fk acg vs theorem_args`. This is because we take as hypotheses in each level that\n"
-"K is a Field, V is an abelian group, and K V is a vector space. To use a theorem, we need to include\n"
-"proofs of those statements."
+"one of the theorems you prove in one level in another level, the syntax will often be\n"
+"`theorem_name K V theorem_args`. This lets Lean know what vector space you are working with."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level02
@@ -1114,7 +1118,7 @@ msgid "This looks like something we've done before. Either the `rw` or `exact` t
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
-msgid "Try `rw [zero_smul_v]`"
+msgid "Try `exact zero_smul_v K V v`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level03
@@ -1127,10 +1131,9 @@ msgid "Zero must belong"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level04
-msgid "Now that we understand what a vector space is, and have proven a simple theorem about\n"
-"them, let's define what a subspace is. Intuitively, a subspace is a subset of a vector space that\n"
-"can be considered as a vector space itself. We define this as a subset `W : Set V` that is nonempty,\n"
-"is closed under addition, and is closed under scalar multiplication.\n"
+msgid "Now that we understand more about vector spaces, let's define what a subspace is.\n"
+"Intuitively, a subspace is a subset of a vector space that can be considered as a vector space itself.\n"
+"We define this as a subset `W : Set V` that is nonempty, is closed under addition, and is closed under scalar multiplication.\n"
 "\n"
 "### The `obtain` tactic\n"
 "A new tactic will help us solve problems with subspaces. While not necessary, and this tactic can\n"
@@ -1138,7 +1141,7 @@ msgid "Now that we understand what a vector space is, and have proven a simple t
 "tactic essentially acts as repeating `cases'`. In this level, it has two main uses. First, if `hw : isSubspace W`\n"
 "is a hypothesis, then `obtain ⟨h1, h2, h3⟩ := hW` will split the definition into the three parts,\n"
 "labeled h1, h2, and h3. The other important use for `obtain` is if you have a hypothesis `hW : W.Nonempty`,\n"
-"then `obtain ⟨w, hw⟩ := hW` will give you a `w : V`, and a hypothesis `hw : w ∈ W`. Also, the \"⟨\"\n"
+"then `obtain ⟨w, hw⟩ := hW` will give you a `w : V`, and a hypothesis `hw : w ∈ W`. The \"⟨\"\n"
 "character is written with \"\\langle\", and the \"⟩\" character is written with \"\\rangle\".\n"
 "\n"
 "### Subspace contains zero\n"
@@ -1202,11 +1205,11 @@ msgstr ""
 #: Game.Levels.VectorSpaceWorld.Level04
 msgid "We know that `0 • «{w}» ∈ W`. If this was our goal, the level would be easy to solve. Also,\n"
 "remember that if you have to use a theorem you have proven in a previous level, you have to write\n"
-"`theorem_name fk acg vs theorem_args` to show Lean that K V is a vector space."
+"`theorem_name K V theorem_args` to show Lean that K V is a vector space."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level04
-msgid "Try `rw [(zero_smul_v fk acg vs «{w}»).symm]`"
+msgid "Try `rw [(zero_smul_v K V w).symm]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level04
@@ -1249,7 +1252,7 @@ msgid "Try `intros x hx`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level05
-msgid "Try `rw [(neg_one_smul_v fk acg vs «{x}»).symm]`"
+msgid "Try `rw [(neg_one_smul_v K V «{x}»).symm]`"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level05
@@ -1875,11 +1878,11 @@ msgid "`sum_sub_distrib` is a proof that you can distribute subtraction over sum
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
-msgid "`subset_union_left` is a proof that if `a b : Finset S` are sets, then `a ⊆ a ∪ b`."
+msgid "`Finset.subset_union_left` is a proof that if `a b : Finset S` are sets, then `a ⊆ a ∪ b`."
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
-msgid "`subset_union_right` is a proof that if `a b : Finset S` are sets, then `b ⊆ a ∪ b`."
+msgid "`Finset.subset_union_right` is a proof that if `a b : Finset S` are sets, then `b ⊆ a ∪ b`."
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
@@ -2010,7 +2013,7 @@ msgid "Try `    rw[hf0 v hv2]`"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
-msgid "Try `    exact zero_smul K v`"
+msgid "Try `    exact zero_smul_v K V v`"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
@@ -2026,7 +2029,7 @@ msgid "Try `    rw[hg0 v hv2]`"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
-msgid "Try `    exact zero_smul K v`"
+msgid "Try `    exact zero_smul_v K V v`"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level07
@@ -2468,7 +2471,7 @@ msgid "*Game version: 1.0*\n"
 "* **Team:** Huiyu Chen, Adam Kern, Justin Morrill, and Letian Yang\n"
 "* **Project Manager:** Daniel Zhou\n"
 "* **Project Leader:** Professor Colleen Robles\n"
-"* **2023 Lean 3 Version:** Yannan Bai, Annapurna Bhattacharya, Chun-Hsien Hsu, Stavan Jain, Kurt Ma, Ricardo Prado Cunha, Anoushka Sinha\n"
+"* **2023 Lean 3 Version:** Yannan Bai, Annapurna Bhattacharya, Chun-Hsien Hsu, Stavan Jain, Kurt Ma, Ricardo Prado Cunha, Anoushka Sinha (Project Manager: Chun-Hsien Hsu)\n"
 "* **Game Engine:** Alexander Bentkamp, Jon Eugster, Patrick Massot\n"
 "* **Inspiration:** Kevin Buzzard's Natural Number Game (https://adam.math.hhu.de/#/g/leanprover-community/nng4)"
 msgstr ""

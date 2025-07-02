@@ -26,19 +26,25 @@ NewTactic symm
 Introduction "
 ## Vector Space Definition
 
-We begin by defining a vector space over a field `K` with an abelian group `V`. This class includes four key axioms:
+We begin by defining a vector space `V` over a field `K` as an abelian group with four key axioms:
 
 ```
-class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends SMul K V where
-  smul_add : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y           -- distributivity of scalar over vector addition
-  add_smul : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x           -- distributivity of scalar addition
-  mul_smul : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x)             -- compatibility of scalar multiplication
-  one_smul : ∀ (x : V), (1 : K) • x = x                                -- identity scalar acts as identity
+class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends Module K V where
+  smul_add_explicit : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y := smul_add -- Distributivity over vector addition
+  add_smul_explicit : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x := add_smul -- Distributivity over scalar addition
+  mul_smul_explicit : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x) := mul_smul -- Associativity of `•` and `*`
+  one_smul_explicit : ∀ (x : V), (1 : K) • x = x := one_smul -- The multiplicitave identity acts as an identity
 ```
 
-This foundational structure will be used throughout all future levels. No proof is needed here
-— just understand the axioms and how they're represented. Note that to write the `•` character, type
-\"\\smul\"
+This foundational structure will be used throughout all future levels. We are also using Mathlib's `Module`,
+`Field`, and `AddCommGroup` definitions, which lets us use notation such as `-a` and `a⁻¹`, and includes
+many helpful theorems that we will not need to prove ourselves.
+
+Note that to write the `•` character, type
+\"\\smul\".
+
+Also, note that there is some strange `inst†` text in your objects. This simply means that your objects
+are instances of certain classes, for example that K V is a vector space.
 
 ## Goal for this level
 
@@ -178,10 +184,14 @@ TheoremTab "Groups"
 DisabledTactic simp linarith
 
 open VectorSpace
+
+open VectorSpace Finset
+variable (K V : Type) [Field K] [AddCommGroup V] [DecidableEq V] [VectorSpace K V]
+
 /--
 In any vector space V over K, the scalar 0 multiplied by any vector gives the zero vector.
 -/
-Statement zero_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K V) (w : V) : (0 : K) • w = (0 : V) := by
+Statement zero_smul_v (w : V) : (0 : K) • w = (0 : V) := by
   Hint "Remember, we are trying to prove this backwards. The last step in the normal proof was to
   cancel out 0 • w from both sides, so what should the first step of the backwards proof be?"
   Hint (hidden := true) "Try `apply add_right_cancel (b := (0 : K) • w)`"
@@ -198,7 +208,5 @@ Statement zero_smul_v (fk : Field K) (acg : AddCommGroup V) (vs : VectorSpace K 
   rw[zero_add]
 
 Conclusion "You have now proven your first theorem about vector spaces! One note: if you want to use
-one of the theorems you prove in one level in another level, the syntax will be
-`theorem_name fk acg vs theorem_args`. This is because we take as hypotheses in each level that
-K is a Field, V is an abelian group, and K V is a vector space. To use a theorem, we need to include
-proofs of those statements."
+one of the theorems you prove in one level in another level, the syntax will often be
+`theorem_name K V theorem_args`. This lets Lean know what vector space you are working with."
