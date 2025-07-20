@@ -1,7 +1,7 @@
 msgid ""
 msgstr "Project-Id-Version: Game v4.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: Mon Jul  7 14:45:38 2025\n"
+"POT-Creation-Date: Sun Jul 20 00:02:23 2025\n"
 "Last-Translator: \n"
 "Language-Team: none\n"
 "Language: en\n"
@@ -827,18 +827,22 @@ msgstr ""
 #: Game.Levels.VectorSpaceWorld.Level01
 msgid "## Vector Space Definition\n"
 "\n"
-"We begin by defining a vector space `V` over a field `K` as an abelian group with four key axioms:\n"
+"We define a vector space `V` over a field `K` as an abelian group with four key axioms. \n"
+"In this game, `VectorSpace K V` is built on Mathlib's `Module K V` over a field, which already contains \n"
+"all the vector space properties:\n"
 "\n"
 "```\n"
-"class VectorSpace (K V : Type) [Field K] [AddCommGroup V] extends Module K V where\n"
-"  smul_add_explicit : ∀ (a : K) (x y : V), a • (x + y) = a • x + a • y := smul_add -- Distributivity over vector addition\n"
-"  add_smul_explicit : ∀ (a b : K) (x : V), (a + b) • x = a • x + b • x := add_smul -- Distributivity over scalar addition\n"
-"  mul_smul_explicit : ∀ (a b : K) (x : V), (a * b) • x = a • (b • x) := mul_smul -- Associativity of `•` and `*`\n"
-"  one_smul_explicit : ∀ (x : V), (1 : K) • x = x := one_smul -- The multiplicitave identity acts as an identity\n"
+"abbrev VectorSpace (K V : Type) [Field K] [AddCommGroup V] := Module K V\n"
 "```\n"
 "\n"
-"This foundational structure will be used throughout all future levels. We are also using Mathlib's `Module`,\n"
-"`Field`, and `AddCommGroup` definitions, which lets us use notation such as `-a` and `a⁻¹`, and includes\n"
+"The four fundamental vector space axioms are:\n"
+"- **Distributivity over vector addition:** `a • (x + y) = a • x + a • y`\n"
+"- **Distributivity over scalar addition:** `(a + b) • x = a • x + b • x`  \n"
+"- **Associativity:** `(a * b) • x = a • (b • x)`\n"
+"- **Identity:** `1 • x = x`\n"
+"\n"
+"This educational approach lets us use standard mathematical terminology while leveraging Mathlib's robust\n"
+"`Module`, `Field`, and `AddCommGroup` definitions, which provide notation such as `-a` and `a⁻¹`, and include\n"
 "many helpful theorems that we will not need to prove ourselves.\n"
 "\n"
 "Note that to write the `•` character, type\n"
@@ -902,13 +906,15 @@ msgid "## Vector Space Definition\n"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
-msgid "A vector space is a space over a field K with an abelian group V. It has four main properties:\n"
+msgid "A vector space is a space over a field K with an abelian group V. In this game, `VectorSpace K V` \n"
+"is an educational alias for Mathlib's `Module K V` over a field. It has four main properties:\n"
 "- Distributivity over vector addition,\n"
 "- Distributivity over scalar addition,\n"
 "- Associativity of scalar multiplication,\n"
 "- Identity scalar acting as identity.\n"
 "\n"
-"These properties can be found in the theorems tab as \"smul_add\", \"add_smul\", \"mul_smul\", and \"one_smul\"."
+"These properties can be found in the theorems tab as \"smul_add\", \"add_smul\", \"mul_smul\", and \"one_smul\",\n"
+"as well as the educational versions \"smul_add_explicit\", \"add_smul_explicit\", etc."
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld.Level01
@@ -1273,8 +1279,7 @@ msgid "Vector Space World"
 msgstr ""
 
 #: Game.Levels.VectorSpaceWorld
-msgid "Welcome to Vector Space World! In this world, you'll build up the basic theory of vector spaces\n"
-"through formal proofs in Lean."
+msgid "Welcome to Vector Space World! In this world, you'll build up the basic theory of vector spaces through formal proofs in Lean."
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld.Level01
@@ -1284,14 +1289,15 @@ msgstr ""
 #: Game.Levels.LinearIndependenceSpanWorld.Level01
 msgid "The first level of this world will introduce the definition of a linear combination. Let's\n"
 "say we want to express that some vector `x` is a linear combination of some set `S ⊆ V`. This means\n"
-"that there is some number of elements in `S`, that after some scalar multiplication, sums to `x`. We can\n"
-"call this set of elements summing to `x` `s`, where `s : Finset V`, and `↑s ⊆ S`. We are using `Finset`\n"
-"here, which means that `s` is a finite subset of V. This is because we can only sum in a way that makes\n"
-"sense over a finite set. If `s` was infinite, there could be multiple ways of summing it to get different\n"
-"answers, or a sum might not even exist. We also need to multiply every element of `s` by a scalar before\n"
-"summing, whether that scalar be `1`, `0`, or anything else. We can represent this by a function `f : V → K`,\n"
-"where each element of `s` gets mapped to the scalar we multiply by. Now, we are able to understand the\n"
-"definition of linear combinations:\n"
+"that there is some number of elements in `S`, that after some scalar multiplication, sums to `x`.\n"
+"Since infinite sums are difficult (and sometimes impossible) to work with, we can't simply sum over\n"
+"all of `S`. Instead, we take some smaller subset `s : Finset V`, with `↑s ⊆ S`, and sum over that.\n"
+"Note here the `↑` character. This simply takes our finite set `s`, which is a `Finset`, and treats it\n"
+"as a `Set`.\n"
+"\n"
+"Once we have the set we are summing over `s`, we need to also multiply the elements of `s` by scalars.\n"
+"We do this with a function `f : V → K`, where each element of `s` gets mapped to the scalar we multiply by.\n"
+"Now, we are able to understand the definition of linear combinations:\n"
 "\n"
 "```\n"
 "def is_linear_combination (S : Set V) (x : V) : Prop :=\n"
@@ -1304,7 +1310,7 @@ msgid "The first level of this world will introduce the definition of a linear c
 "\n"
 "### Defining functions\n"
 "In this level, we need to use the `use` tactic to specify a function `f`. A very versatile way of doing\n"
-"this is with the `fun` keyword. This allows you to wrtie the function, and for Lean to accept it as a function.\n"
+"this is with the `fun` keyword. This allows you to write the function, and for Lean to accept it as a function.\n"
 "For example, to write `f(x) = x²`, we can say `fun x => x * x`.\n"
 "\n"
 "### The return of the `simp` tactic\n"
@@ -2436,9 +2442,1464 @@ msgid "Linear Independence and Span World"
 msgstr ""
 
 #: Game.Levels.LinearIndependenceSpanWorld
-msgid "Welcome to Linear Independence and Span World! This world introduces the ideas of linear\n"
-"independence/dependence and the span of a set of vectors. You will prove theorems, for example that\n"
-"any subset of a linearly independent set of vectors is still linearly independent."
+msgid "Welcome to Linear Independence and Span World! This world introduces the ideas of linear independence/dependence and the span of a set of vectors. You will prove theorems, for example that any subset of a linearly independent set of vectors is still linearly independent."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Challenge Level - Span After Removing Elements"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "This is the second challenge level, and the last level of the Linear Independence and Span World! Similar\n"
+"to the first challenge level, this level is optional and can be skipped with the `sorry` tactic, but you can\n"
+"play through it if you want more practice.\n"
+"\n"
+"### The Goal\n"
+"The goal of this level is to prove that if you have some set `S`, and some vector `w` inside the span\n"
+"of `S \\ {w}`, the span of `S` is the same as the span of `S \\ {w}`. This is because `w` can be written\n"
+"as a sum of vectors of `S \\ {w}`, so any time you have `w` appear in a linear combination of `S`, you\n"
+"can simply replace it with a sum of vectors in `S \\ {w}`.\n"
+"\n"
+"### Proof overview\n"
+"The most difficult part of this proof is showing that given a linear representation of a vector in the\n"
+"span of `S`, we can represent it as a sum of vectors in `S \\ {w}`. You are able to represent a sum over\n"
+"`S` as a sum over `S \\ {w}` plus the function applied to `w`. Then, rewrite `w` as a sum of vectors\n"
+"in `S \\ {w}`, and recombine the sums."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`subset_insert` is a proof that any set is a subset of itself with an element inserted. In Lean, the\n"
+"syntax is as follows: if `s : Set T` is a set, and you have `x : T`, then `s ⊆ Set.insert x s`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`Finset.Subset.antisymm_iff` is a proof that two Finsets are equal if and only if they are subsets of each other."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`sum_eq_sum_diff_singleton_add` is a proof that if you have some set `s`, with `h : i ∈ s`, then\n"
+"`Finset.sum s (fun x => f x) = Finset.sum (s / {i}) (fun x => f x) + f i. The syntax is `sum_eq_sum_diff_singleton_add h f`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`mem_union_right` is a proof that if `a ∈ t`, then `a ∈ s ∪ t`. The syntax is `mem_union_right s h`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`subset_diff_singleton` is a proof that if `h : s ⊆ t`, and `hx : x ∉ s`, then `s ⊆ t \\ {x}`. The syntax\n"
+"is `subset_diff_singleton h hx`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`diff_subset` is a proof that `s ⊆ s \\ t`. The syntax is `diff_subset s t`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "## Summary\n"
+"`tauto` solves goals using simple logic. It works similarly to the `simp` and `linarith` tactics, in\n"
+"that there is not just one use case. If there is a contradiction that can be easily inferred, or if\n"
+"the goal is a direct result of the hypotheses, `tauto` will solve the goal.\n"
+"\n"
+"## Example\n"
+"If your goal is of the form `P ∨ ¬P`, then `tauto will solve the goal.\n"
+"\n"
+"## Example\n"
+"If your goal is of the form `A ∨ B`, and you have a hypothesis `h : A ∨ (B ∧ C)`, then `tauto` will\n"
+"solve the goal."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "## Summary\n"
+"`left` is one of the ways of proving `or` statements. If your goal is `P ∨ Q`, then `left` changes the\n"
+"goal to `P`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "## Summary\n"
+"`right` is one of the ways of proving `or` statements. If your goal is `P ∨ Q`, then `right` changes the\n"
+"goal to `Q`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "## Summary\n"
+"`let` acts very similarly to `have`. Instead of allowing you to create new hypotheses, `let` allows you\n"
+"to create new objects.\n"
+"\n"
+"## Using `rw` after `let` statements\n"
+"You may want to use `rw` with the equalities you choose in a `let` statement. To do this, you must create\n"
+"a new lemma stating this equality with `have`. The proof will simply be `rfl`.\n"
+"\n"
+"## Example\n"
+"If you have objects `x y : V`, then you can say `let z := x + y`, and you will have a new object `z`,\n"
+"where `z = x + y` can be solvedd by `rfl`\n"
+"\n"
+"## Example\n"
+"If you have a function `f : V → K`, and `v : V`, you can say `let f := fun x => f x • v`."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "`ite` stands for `if then else`. If is used when creating functions. You can think of `ite P f1 f2` as\n"
+"\"If P then f1 else f2\". This function gives you f1 when P is True, and f2 otherwise. This can help you\n"
+"design functions that are 0 outside of certain sets."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid ""
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "We want to prove two sets are equal. What theorem can help us with this?"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `apply Set.eq_of_subset_of_subset`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "First, introduce an arbitrary element, unfold definitions and simp"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `intro x hx`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `unfold span at *`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `unfold is_linear_combination at *`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp at *`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Now, we have two helpful statements. We can use `obtain` to get sets and functions from them"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `obtain ⟨sw, hsw, fw, hfw⟩ := hcomb`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `obtain ⟨sx, hsx, fx, hfx⟩ := «{hx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Here, we can split into two cases: whether or not `w ∈ «{sx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `by_cases hw : w ∈ «{sx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "What set should we be summing over? Note that you have two different sets where functions are\n"
+"defined, «{sw}» and «{sx}»"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `use «{sw}» ∪ («{sx}» \\ {w})`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `constructor`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[coe_union]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `apply Set.union_subset «{hsw}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact subset_trans «{hsx}» (subset_insert w S)`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "In order to manipulate the sum better, it would be nice to rewrite the set you are summing over.\n"
+"You can use a `have` statement to show that this set is equal to `(«{sw}» ∪ «{sw}» \\ {w})`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have set_eq : «{sw}» ∪ («{sx}» \\ {w}) = («{sw}» ∪ «{sx}») \\ {w} := by`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `apply Finset.Subset.antisymm_iff.2`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `constructor`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `intro x hx`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp at «{hx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `constructor`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `tauto`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `cases' «{hx}» with hInsw hInsx`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `intro hEqW`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[«{hEqW}»] at «{hInsw}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have hContra := «{hsw}» «{hInsw}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try simp at «{hContra}»``"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact «{hInsx}».2`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `intro x hx`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp at «{hx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `cases' «{hx}» with hl hr`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `cases' «{hl}» with hInsw hInsx`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `left`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact «{hInsw}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `right`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `constructor`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact «{hInsx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exacr «{hr}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Now, let's consider the function we will be summing. To get a sum of `«{x}»`, we need two parts:\n"
+"the sum over `S` getting `«{x}»`, and the sum over `S \\ {w}` to get `w`. This can be thought of as\n"
+"two seperate functions. The first function will be similar to `«{fx}»`, but since we do not know what\n"
+"`«{fx}»` is outside of `«{sx}»`, we must make this function `0` outside of `sx`. We can define this first\n"
+"function with a `let` statement"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `let fx' := fun v => (ite (v ∈ «{sx}») («{fx}» v) 0)`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have hfx' : «{fx'}» = (fun v => (ite (v ∈ «{sx}») («{fx}» v) 0)) := rfl`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Now, you can prove that summing `«{fx'}»` over our set gives the correct value. Prove this with\n"
+"a `have` statement"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have fx'_sum : «{x}» - («{fx}» w • w) = («{sw}» ∪ («{sx}» \\ {w})).sum (fun v => «{fx'}» v • v) := by`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[set_eq]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `apply add_right_cancel (b := «{fx}» w • w)`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have hfx'w : «{fx}» w = «{fx'}» w := by`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[«{hfx'}»]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp only [«{hw}»]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[«{hfx'w}»]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[(sum_eq_sum_diff_singleton_add (mem_union_right «{sw}» «{hw}») (fun v => «{fx'}» v • v)).symm]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[«{hfx'}»]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact «{hfx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Now, we can create the second function, which will be added to get the missing `«{fx}» w • w`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `let fw' := fun v => ite (v ∈ «{sw}») («{fx}» w * «{fw}» v) 0`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have hfw' : «{fw'}» = (fun v => ite (v ∈ «{sw}») («{fx}» w * «{fw}» v) 0) := rfl`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Again, prove that the function sums to the correct value"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `have fw'_sum : «{fx}» w • w = («{sw}» ∪ («{sx}» \\ {w})).sum (fun v => «{fw'}» v • v) := by`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[«{hfw'}»]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp only [mul_smul]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[(smul_sum (r := «{fx}» w) (s := «{sw}») (f := fun v => «{fw}» v • v)).symm]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[«{hfw}»]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Now, use the functions we have defined"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `use fun v => «{fx'}» v + «{fw'}» v`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp only [add_smul]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `rw[sum_add_distrib, «{fx'_sum}».symm, «{fw'_sum}».symm]`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Now, we are on the second case, when `w ∉ «{sx}»."
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `use «{sx}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `constructor`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact subset_diff_singleton «{hsx}» «{hw}»`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `use fx`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Lastly, we must prove that `span K V (S \\ {w}) ⊆ span K V S`. This is simple with span_mono"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `apply span_mono`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "Try `exact diff_subset S {w}`"
+msgstr ""
+
+#: Game.Levels.LinearIndependenceSpanWorld.Level09
+msgid "You have now finished the Linear Independence and Span World!"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "Norm Is Nonnegative"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "The first level of this world will introduce two new ideas, the inner product and the norm.\n"
+"The inner product is a way of taking two vectors, and multiplying them to get a complex number. There\n"
+"are five main axioms that make such a function a valid inner product. First, any vector's inner product\n"
+"with itself must be a nonnegative real number. Secondly, a vector's inner product with itself must\n"
+"equal zero if and only if the vector is itself 0. The third and fourth axioms are that you can distribute\n"
+"vector addition and commute vector multiplication through the first element of the product. Lastly, the\n"
+"inner product has conjugate symmetry, that is that `⟪u, v⟫ = conj ⟪v, u⟫. Also, note that in any inner\n"
+"product space, our field `K` must be `ℂ`. This is what allows us to commute multiplication through the\n"
+"inner product.\n"
+"\n"
+"```\n"
+"-- Inner product space definition for complex vector spaces\n"
+"class InnerProductSpace_v (V : Type) [AddCommGroup V] [VectorSpace ℂ V] where\n"
+"  inner : V → V → ℂ\n"
+"  inner_self_im_zero : ∀ (v : V), (inner v v).im = 0\n"
+"  inner_self_nonneg : ∀ (v : V), 0 ≤ (inner v v).re\n"
+"  inner_self_eq_zero : ∀ (v : V), inner v v = 0 ↔ v = 0\n"
+"  inner_add_left : ∀ (u v w : V), inner (u + v) w = inner u w + inner v w\n"
+"  inner_smul_left : ∀ (a : ℂ) (v w : V), inner (a • v) w = a * inner v w\n"
+"  inner_conj_symm : ∀ (v w : V), inner v w = conj (inner w v)\n"
+"```\n"
+"\n"
+"Once we have the inner product, vector norms are easy to define. We simply let `‖v‖ = sqrt ⟪v, v⟫.re`,\n"
+"which means that the norm of `v` is the square root of it's inner product with itself (we take `.re`)\n"
+"to make sure that `⟪v, v⟫` is a real number, although we already garuntee this with the first axiom).\n"
+"Note that the norm is called `norm_v`, which is what you should use if you try to `unfold`.\n"
+"\n"
+"```\n"
+"def norm_v (v : V) : ℝ := Real.sqrt ⟪v, v⟫.re\n"
+"```\n"
+"\n"
+"## The Goal\n"
+"This first level requires you to prove that `0 ≤ ‖v‖`. Since norm is defined as the square root of a\n"
+"nonnegative real number, it is inherenetly positive."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "The square root of any real number is nonnegative"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "For any vector `v`, the imaginary part of `⟪v, v⟫` is zero. Equivalently, `⟪v, v⟫` is real."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "For any vector `v` the real part of `⟪v, v⟫` is nonnegative."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "For any vector `v`, `⟪v, v⟫ = 0` if and only if `v` is the zero vector"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "For any vectors `u, v, w`, ⟪(u + v), w⟫ = ⟪u, w⟫ + ⟪v, w⟫. That is, inner products distribute over addition"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "For any vectors `v, w`, and a scalar `a`, ⟪a • v, w⟫ = a * ⟪v, w⟫. This means that scalar multiplication\n"
+"commutes with the inner product."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "For any vectors `v, w`, `⟪v, w⟫ = conj ⟪w, v⟫`. This means that the inner product commutes if you take\n"
+"the conjugate."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "`InnerProductSpace_v` is how we define inner products. An `InnerProductSpace_v` is another class, similar\n"
+"to how a `VectorSpace` is a class, and it defines a function `inner` that takes two elements of `V`\n"
+"and gives an element of `ℂ`. `inner` can also be written as `⟪v, w⟫`. An InnerProductSpace must be a\n"
+"vector space with field `K = ℂ`, and the inner product must satisfy five axioms: First, any vector's inner product\n"
+"with itself must be a nonnegative real number. Secondly, a vector's inner product with itself must\n"
+"equal zero if and only if the vector is itself 0. The third and fourth axioms are that you can distribute\n"
+"vector addition and commute vector multiplication through the first element of the product. Lastly, the\n"
+"inner product has conjugate symmetry, that is that `⟪u, v⟫ = conj ⟪v, u⟫. The Lean code defining this is\n"
+"\n"
+"```\n"
+"class InnerProductSpace_v (V : Type) [AddCommGroup V] [VectorSpace ℂ V] where\n"
+"  inner : V → V → ℂ\n"
+"\n"
+"  -- 1. Positivity: ⟨v,v⟩ is real and non-negative\n"
+"  inner_self_im_zero : ∀ (v : V), (inner v v).im = 0\n"
+"  inner_self_nonneg : ∀ (v : V), 0 ≤ (inner v v).re\n"
+"\n"
+"  -- 2. Definiteness: ⟨v,v⟩ = 0 iff v = 0\n"
+"  inner_self_eq_zero : ∀ (v : V), inner v v = 0 ↔ v = 0\n"
+"\n"
+"  -- 3. Additivity in first slot: ⟨u + v, w⟩ = ⟨u, w⟩ + ⟨v, w⟩\n"
+"  inner_add_left : ∀ (u v w : V), inner (u + v) w = inner u w + inner v w\n"
+"\n"
+"  -- 4. Homogeneity in first slot: ⟨a • v, w⟩ = a * ⟨v, w⟩\n"
+"  inner_smul_left : ∀ (a : ℂ) (v w : V), inner (a • v) w = a * inner v w\n"
+"\n"
+"  -- 5. Conjugate symmetry: ⟨v, w⟩ = conj(⟨w, v⟩)\n"
+"  inner_conj_symm : ∀ (v w : V), inner v w = conj (inner w v)\n"
+"```"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "`norm_v` is how we define vector norms. It can also be written as `‖v‖`. We define the norm of a vector\n"
+"`v` as the square root of it's inner product with itself. The lean code defining this is\n"
+"\n"
+"```\n"
+"def norm_v (v : V) : ℝ := Real.sqrt ⟪v, v⟫.re\n"
+"```"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "The norm of any vector is non-negative."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "Try unfolding the new definition"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "Try `unfold norm_v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level01
+msgid "Try `exact Real.sqrt_nonneg ⟪v,v⟫.re`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Zero Norm if and only if Zero Vector"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "## The Goal\n"
+"In this level, we prove that the norm of a vector is zero if and only if it is the zero vector. The\n"
+"idea of the proof is to use the `inner_self_eq_zero` axiom, which requires cancelling out the square\n"
+"roots.\n"
+"\n"
+"## The `apply_fun` tactic\n"
+"The `apply_fun` tactic is used to apply functions to both sides of an equality. This only works in your\n"
+"hypotheses, not in the goal. The syntax is `apply_fun (fun x => f x) at h`. If `h : a = b` is a proof,\n"
+"then this will change `h` to `h : f a = f b`. This tactic can be very helpful, as squaring a square root\n"
+"cancels out the operation."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "## Summary\n"
+"`apply_fun` allows you to apply functions to both sides of an equality in the hypothesis. This can also\n"
+"be done simply with a `have`, `rw`, and `rfl` statement, but it is nice to be able to do that in one line.\n"
+"\n"
+"## Example\n"
+"If you have `h : sqrt x = 0`, using `apply_fun (fun v => v ^ 2) at h` will change `h` to `h : (sqrt x) ^ 2 = 0 ^ 2`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "`sq_sqrt` is a proof that if `0 ≤ x`, then `(sqrt x) ^ 2 = x`. It allows you to cancel out square roots."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "`Complex.ext` allows you to split complex numbers into their real and imaginary parts. If your goal is\n"
+"of the form `a = b`, where `(a b : ℂ)`, then `apply Complex.ext` will create two goals, one `a.re = b.re`,\n"
+"and the other `a.im = b.im`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "`norm_zero_v` is a proof that `‖v‖ = 0 ↔ v = 0`, or that the only vector with norm zero is the zero vector."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try unfolding and using constructor to split the `↔`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `unfold norm_v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `constructor`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `intro h`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Now, try to remove the square root"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `apply_fun (fun x => x^2) at «{h}»`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `rw[sq_sqrt (inner_self_nonneg v)] at «{h}»`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try ``"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Now, try to use some of the theorems we know"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `apply (inner_self_eq_zero v).1`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `apply Complex.ext`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `exact «{h}»`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `exact inner_self_im_zero v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `intro h`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `rw [«{h}»]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `rw [(inner_self_eq_zero 0).2]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level02
+msgid "Try `rfl`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Norm of a Scaled Vector"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "## The Goal\n"
+"In this level, we show that you can take scalar multiples out from the norm of a vector, as long as\n"
+"you multiply by the complex norm of the scalar. The proof here takes multiple steps. The first idea\n"
+"is to square each side, getting rid of the square roots. Then, you can use multiple theorems to rewrite\n"
+"the goal to be solved by an exact statement.\n"
+"\n"
+"## The `ring` tactic\n"
+"`ring` again acts very similar to `linarith`, but it works for equations using rings. Rings are basically\n"
+"objects where you can multiply and divide, for example, the complex numbers.\n"
+"\n"
+"## The `←` character\n"
+"The `←` character acts similarly to `.symm`, but you often do not need to specify the exact details\n"
+"of what you are rewriting, as you need to do with `.symm` The syntax looks like `← thm` instead of `thm.symm`\n"
+"\n"
+"## Note on `InnerProductSpace_v`\n"
+"Some of the axioms and theorems you have share names with other theorems. If you run into a bug saying\n"
+"\"Ambiguous, possible interpretations\", try specifying the exact name of your theorem with `InnerProductSpace_v.`\n"
+"in from of the theorem."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "## Summary\n"
+"`ring` acts very similar to `simp` and `linarith` in that it will attempt to solve the goal for you.\n"
+"`ring` works best with rings, which are objects where you can add and multiply. The most common rings\n"
+"you will see are the real and complex numbers.\n"
+"\n"
+"## Example\n"
+"If you have a goal `(a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^2`, `ring` will solve the goal."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`norm_nonneg` is very similar to the vector space theorem `norm_nonneg_v`. The theorem shows that any\n"
+"complex number has nonnegative norm."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`Left.mul_nonneg` is a proof that multiplying two nonnegative numbers will give a nonnegative value.\n"
+"If you have hypotheses `h1 : 0 ≤ a`, `h2 : 0 ≤ b`, then `Left.mul_nonneg h1 h2` is a proof that `0 ≤ a * b`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`sq_eq_sq` is a proof that if `a` and `b` are nonnegative, `a^2 = b^2` if and only if `a = b`. If you\n"
+"have hypotheses `h1 : 0 ≤ a`, `h2 : 0 ≤ b`, then `sq_eq_sq h1 h2` is a proof that `a ^ 2 = b ^ 2 ↔ a = b`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`mul_assoc` is a proof that multiplication is associative. That is, that if you have `a, b, c`, then\n"
+"`a * (b * c) = (a * b) * c`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`mul_conj` is a proof that `z * conj z = ↑(normSq z)`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`normSq_eq_norm_sq` is a proof that `normSq z = ‖z‖ ^ 2`. It essentially unfolds the `normSq` definition."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "`re_ofReal_mul` is a proof that `(↑r * z).re = r * z.re`. It is helpful when working with both real and\n"
+"complex numbers at the same time."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "The norm of a scalar multiple: `‖a • v‖= ‖a‖ * ‖v‖`.\n"
+"This fundamental property shows how norms interact with scalar multiplication."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "The square of the norm equals the real part of the inner product with itself:\n"
+"`‖v‖ ^ 2 = ⟪v, v⟫.re`. This connects the geometric notion of length with the algebraic inner product."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Since we know many theorems about norms now, perhaps is is better to hold off on unfolding.\n"
+"For now, try to find a way to square both sides of the goal."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `have h1 := norm_nonneg a`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `have h2 := norm_nonneg_v v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `have g1 := Left.mul_nonneg «{h1}» «{h2}»`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `have g2 := norm_nonneg_v (a • v)`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `apply (sq_eq_sq «{g2}» «{g1}»).1`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Use `ring` to simplify the goal"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `ring`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Use our theorems to simplify the goal. Also, remember the `exact?`\n"
+"tactic can help you find when to use `exact`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `rw [InnerProductSpace_v.inner_smul_left]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `rw [inner_smul_right_v]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `rw[← mul_assoc]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `rw[mul_conj]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `rw[normSq_eq_norm_sq]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level03
+msgid "Try `exact re_ofReal_mul (‖a‖ ^ 2) ⟪v,v⟫`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "Orthogonality With Self"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "We now introduce orthogonality. Two vectors being orthogonal is equivalent to having their inner product\n"
+"be 0. In Lean, we write this as\n"
+"\n"
+"```\n"
+"def orthogonal (u v : V) : Prop := ⟪u, v⟫ = (0 : ℂ)\n"
+"```\n"
+"\n"
+"## The Goal\n"
+"In this level, we show that the only vector that is orthogonal to itself is the zero vector.\n"
+"This proof is very similar to our axiom `inner_self_eq_zero`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "`orthogonal` is how we say vectors are orthogonal. The syntax is `orthogonal v w`. This means that the\n"
+"inner product of `v` and `w` is `0`. In Lean, we define it by saying\n"
+"\n"
+"```\n"
+"def orthogonal (u v : V) : Prop := ⟪u, v⟫ = (0 : ℂ)\n"
+"```"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "`ortho_self_zero` is a proof that the only vector orthogonal to itself is the zero vector. If `v` is\n"
+"a vector, `ortho_self_zero v` is a proof that `ortho v v ↔ v = 0`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "Try unfolding orthogonal"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "Try `unfold orthogonal`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level04
+msgid "Try `exact inner_self_eq_zero v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Pythagorean Theorem"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "## The Goal\n"
+"This level has you prove the Pythagorean Theorem. In an abstract vector space, this theorem is a proof\n"
+"that given any two orthogonal vectors, `u, v`, then `‖u + v‖^2 = ‖u‖^2 + ‖v‖^2`. The idea behind the\n"
+"proof is quite simple. Since all the norms are squared, we can remove the square roots, and then simplify\n"
+"using the axioms of inner products."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "This is the Pythagorean Theorem. If you have vectors `u v`, and `h : orthogonal u v`, then\n"
+"`pythagorean u v h` is a proof that `‖u + v‖^2 = ‖u‖^2 + ‖v‖^2`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "First, try to remove the squares."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `repeat rw[norm_sq_eq]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Now, try to expand `⟪u + v, u + v⟫` with our additivity properties."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `rw[inner_add_left u v (u + v)]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `rw [inner_add_right_v u u v]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `rw [inner_add_right_v v u v]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Keep simplifying!"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `rw[inner_conj_symm v u]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `unfold orthogonal at h`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `rw[h]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level05
+msgid "Try `simp`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level06
+msgid "Orthogonal Decomposition"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level06
+msgid "One of the most important theorems in linear algebra is orthogonal decomposition. This allows you to\n"
+"represent a vector as a scalar multiple of one vector, along with a vector orthogonal to that vector.\n"
+"This includes the concepts of projections and othogonal components.\n"
+"\n"
+"## The Goal\n"
+"In this level, we are given two vectors, `u` and `v`. `u` is the vector we want to rewrite, and `v`\n"
+"is the vector we are scaling and getting the orthogonal component of. We also assume `h : v ≠ 0`. From\n"
+"this, we can calculate our sum as `u = (⟪u,v⟫ / (‖v‖^2)) • v + (u - (⟪u,v⟫ / (‖v‖^2)) • v))`. The equality\n"
+"is trivial, since we are adding and subtracting the same vector to `u` on the right side. Also,\n"
+"`(⟪u,v⟫ / (‖v‖^2)) • v` is clearly a scalar multiple of `v`. The only thing we have to prove is that\n"
+"`v` is orthogonal to `u - ((⟪u,v⟫ / (‖v‖^2)) • v)`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level06
+msgid "`ortho_decom` is a proof that given vectors `u v : V` and `h : v ≠ 0`, then `orthogonal (u - (⟪u,v⟫ / (‖v‖^2)) • v) v`.\n"
+"This allows you to rewrite `u` as a scalar multiple of `v` added to a vector orthogonal to `v`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Cauchy-Schwarz Inequality"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "The Cauchy-Schwarz inequality is one of the most fundamental inequalities in mathematics. It states that for any two vectors `u` and `v` in an inner product space:\n"
+"\n"
+"$$|\\langle u, v \\rangle| \\leq \\|u\\| \\cdot \\|v\\|$$\n"
+"\n"
+"This inequality has deep geometric meaning: the absolute value of the inner product (which relates to the cosine of the angle between vectors) is bounded by the product of their lengths. This ensures that when we define angles using inner products, the cosine stays between -1 and 1.\n"
+"\n"
+"## The Goal\n"
+"We prove this using orthogonal decomposition. The key insight is to decompose `u` relative to `v` as `u = c • v + w` where `w` is orthogonal to `v`. Then we use the Pythagorean theorem and algebraic manipulation to establish the inequality.\n"
+"\n"
+"## The Strategy\n"
+"1. Handle the case `v = 0` separately (trivial)\n"
+"2. For `v ≠ 0`, use orthogonal decomposition: `u = c • v + w` with `w ⊥ v`  \n"
+"3. Apply Pythagorean theorem: `‖u‖² = ‖c • v‖² + ‖w‖²`\n"
+"4. Since `‖w‖² ≥ 0`, we get `‖u‖² ≥ ‖c • v‖²`\n"
+"5. Substitute `c = ⟪u,v⟫ / ‖v‖²` and algebraically simplify"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "The Cauchy-Schwarz inequality: `‖⟪u,v⟫‖ ≤ ‖u‖ * ‖v‖` for any vectors `u` and `v`.\n"
+"This is one of the most important inequalities in linear algebra and analysis."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "We need to consider two cases: when `v = 0` and when `v ≠ 0`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `by_cases v_zero : v = 0`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "First, let's handle the case when `v = 0`. When `v = 0`, both sides become 0."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `rw[v_zero]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `rw [inner_zero_right_v]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Now for the main case where `v ≠ 0`. We'll use orthogonal decomposition."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `let c := ⟪u,v⟫ / (‖v‖^2)`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `let w := u - c • v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `have h5:= left_smul_ortho v w c (ortho_swap w v h4)`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "We reduce to proving the squared version of the inequality."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `suffices ‖⟪u,v⟫‖^2 ≤ ‖u‖^2 * ‖v‖^2 by exact le_of_sq_le_sq this g3`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Apply the Pythagorean theorem using orthogonality."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `have h6 := pythagorean (c• v) w h5`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `nth_rw 2 [h3]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `rw [h6]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Transform ‖c • v‖² using the definition of c."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `have kt : ‖c • v‖^2 = ‖⟪u,v⟫‖^2/‖v‖^2 := by ...`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `rw [kt]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `rw [add_mul]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `field_simp [v_norm_zero]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level07
+msgid "Try `exact norm_sq_nonneg w`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Triangle Inequality for the Norm"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "## Triangle Inequality\n"
+"\n"
+"In any inner product space, the norm satisfies the triangle inequality:\n"
+"$$\\|u+v\\| \\leq \\|u\\| + \\|v\\|$$\n"
+"\n"
+"Geometrically, this says the straight-line path is the shortest. In this level, you'll prove this fundamental result using the inner product, the Cauchy–Schwarz inequality, and basic algebra.\n"
+"\n"
+"## Summary\n"
+"The triangle inequality is a cornerstone of normed spaces. For any vectors $u$ and $v$, the straight-line distance ($\\|u+v\\|$) is never greater than the sum of the distances ($\\|u\\| + \\|v\\|$).\n"
+"\n"
+"## Key idea\n"
+"- Expand $\\|u+v\\|^2$ using the inner product.\n"
+"- Bound the cross term $2\\,\\Re\\,\\langle u,v\\rangle$ using the Cauchy–Schwarz inequality.\n"
+"- Finish by taking square roots, using nonnegativity of norm.\n"
+"\n"
+"This property is what makes $\\|\\cdot\\|$ a norm, ensuring our vector space is a metric space!"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "The triangle inequality is a fundamental property of norms in inner product spaces.\n"
+"It states that `‖u+v‖ ≤ ‖u‖ + ‖v‖` for any vectors `u` and `v`.\n"
+"This ensures that the norm defines a proper distance on the vector space."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "It's easier to prove the squared version first: `‖u+v‖^2 ≤ (‖u‖ + ‖v‖)^2`."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `suffices ‖u+v‖^2 ≤ (‖u‖ + ‖v‖)^2 by`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Expand the squared norm using the inner product."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `rw [norm_sq_eq]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "We need to expand `⟪u+v, u+v⟫.re` using linearity of the inner product."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `have expand : ⟪u+v, u+v⟫.re = ⟪u,u⟫.re + ⟪v,v⟫.re + 2*⟪u,v⟫.re := by`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `rw [InnerProductSpace_v.inner_add_left, inner_add_right_v, inner_add_right_v]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `simp only [Complex.add_re]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `rw [InnerProductSpace_v.inner_conj_symm v u, Complex.conj_re]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `ring`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `rw [expand, add_sq, norm_sq_eq, norm_sq_eq]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Bound the cross term `2*⟪u,v⟫.re` by `2*‖u‖*‖v‖` using Cauchy–Schwarz."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `have bound := re_le_abs ⟪u,v⟫`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `have cs := Cauchy_Schwarz u v`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `rw [norm_inner_eq_abs] at cs`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `have cross_bound : ⟪u,v⟫.re ≤ ‖u‖ * ‖v‖ := by linarith [bound, cs]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "Try `linarith [cross_bound]`"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld.Level08
+msgid "You have proven the triangle inequality!  \n"
+"This key result guarantees that norm defines a 'distance' on the vector space."
+msgstr ""
+
+#: Game.Levels.InnerProductWorld
+msgid "Inner Product World"
+msgstr ""
+
+#: Game.Levels.InnerProductWorld
+msgid "Welcome to the Inner Product World! In this world, we introduce the idea of the inner product,\n"
+"along with orthogonality and vector norms. You will prove many familiar theorems, such as the Pythagorean\n"
+"Theorem and the Cauchy Schwarz Inequality."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "Definition of a Basis"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "In this level, we introduce the precise mathematical definition of a **basis** for a vector space.\n"
+"\n"
+"Given a vector space $V$ over a field $K$, a set $B \\subseteq V$ is called a basis of $V$ if it satisfies **two key properties**:\n"
+"\n"
+"1. **Linear Independence:** No nontrivial linear combination of elements of $B$ gives zero.\n"
+"   That is, if a finite sum $\\sum_{i} \\alpha_i b_i = 0$ with $b_i \\in B$ and scalars $\\alpha_i$ implies all $\\alpha_i = 0$.\n"
+"\n"
+"2. **Spanning:** Every vector $v \\in V$ can be written as a finite linear combination of elements of $B$.\n"
+"\n"
+"In Lean, we formalize this as follows:\n"
+"\n"
+"def isBasis (B : Set V) : Prop :=\n"
+"  linear_independent K V B ∧ span K V B = ⊤\n"
+"\n"
+"### The Goal\n"
+"Prove that the definition above is equivalent to saying $B$ is linearly independent and spans $V$."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "`isBasis K V B` means $B$ is a basis: linearly independent and spans $V$."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "The definition of a basis is just linear independence and spanning."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "The definition of a basis is just linear independence and spanning."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "Try `unfold isBasis` to see the definition directly."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level01
+msgid "You have formalized the mathematical definition of a basis for a vector space.\n"
+"\n"
+"In the next levels, you will use this definition to explore fundamental theorems about bases, dimension, and coordinate representations."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "Finding a Minimal Spanning Set"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "## Finding a Minimal Spanning Set\n"
+"\n"
+"Sometimes you start with a big spanning set that includes lots of redundant vectors.\n"
+"Like cleaning out a closet, you want to keep only the essentials.\n"
+"This level proves you can always extract a subset that is a basis."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "Given a spanning set, you can extract a subset that is a basis.\n"
+"This demonstrates that every vector space has a basis."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "Use `exists_linearIndependent` to get a maximal independent subset."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "Since `span B = span S` and `span S = ⊤`, get `span B = ⊤` by substitution."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "Collect everything for the answer."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level02
+msgid "Any spanning set contains a basis—you can always trim down to something just right!"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "The Space Where Everything is Zero"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "## The Space Where Everything is Zero\n"
+"\n"
+"Imagine living in a space where every vector is zero.\n"
+"No movement, no direction—just the origin.\n"
+"In this level, you show that such a space must have dimension zero.\n"
+"\n"
+"Your goal: show that any vector space where all elements are zero has dimension zero."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid ""
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "If every vector in `V` is zero, then the finite rank of `V` is 0."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "We need to show this space has finrank 0. Since every vector is zero, the space is just 0."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "Try `have h_zero : (⊤ : Submodule K V) = ⊥ := by`"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "Try `ext v`"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "Try `simp [Submodule.mem_bot, hV v]`"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "Try `rw [← finrank_top, h_zero]`"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "Try `exact finrank_bot K V`"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level03
+msgid "The only possible basis for the zero space is the empty set, so its dimension is zero."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level04
+msgid "Dimension of a Subspace ≤ Dimension of the Ambient Space"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level04
+msgid "Now that we have the notion of `Module.finrank` (the dimension of a finite-dimensional space), let's prove a fundamental fact: any subspace has dimension at most that of the whole space. If `V` is a finite-dimensional vector space and `U` is a submodule of `V` (think: a subspace of `V`), it is intuitively clear that `dim U ≤ dim V`.\n"
+"\n"
+"**Intuition:** Take a basis of the subspace `U` and extend it to a basis of the entire space `V`. The extended basis of `V` has at least as many vectors as the basis of `U`, so the number of basis vectors of `U` (the dimension of `U`) cannot exceed the number of basis vectors of `V` (the dimension of `V`).\n"
+"\n"
+"**Plan in Lean:** We can capture the above intuition using a linear map. The inclusion map from `U` into `V` (denoted `U.subtype`) is a linear map that is injective (no new collisions when we view elements of `U` inside `V`). Lean provides a lemma `LinearMap.finrank_le_finrank_of_injective` which says that if we have an injective linear map between two finite-dimensional spaces, then the dimension of the domain is ≤ the dimension of the codomain. So our goal is to apply this lemma to `U.subtype`. We'll proceed by:\n"
+"1. Noting that `U.subtype` is indeed injective (which we can justify with `U.subtype_injective`).\n"
+"2. Applying `LinearMap.finrank_le_finrank_of_injective` to get the inequality on finranks.\n"
+"\n"
+"Armed with these ideas, let's carry out the proof!"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level04
+msgid ""
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level04
+msgid "This theorem states that in a finite-dimensional ambient space `V`, any submodule `U` of `V` has `finrank K U ≤ finrank K V`. In other words, a subspace cannot have a higher dimension than the whole space.\n"
+"\n"
+"**Proof hint:** Consider the inclusion map `U.subtype : U →ₗ[K] V`. This linear map is injective (use `U.subtype_injective` to prove that formally). Once you know it's injective, apply the lemma `LinearMap.finrank_le_finrank_of_injective` to conclude the proof."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level04
+msgid "**Subspace dimension cannot exceed ambient dimension.** We used the injectivity of the inclusion map `U.subtype` to apply a general result about linear maps, yielding `finrank K U ≤ finrank K V`. This formal proof mirrors the intuitive idea that you can extend a basis of `U` to a basis of `V`, so you can never have more basis vectors in `U` than in `V`.\n"
+"\n"
+"Congratulations on formalizing this classic linear algebra result! By connecting an injective linear map with the concept of basis extension, we've solidified the fact that any subspace's dimension is at most the dimension of the entire space."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level05
+msgid "Subspace Equality from Equal Dimension"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level05
+msgid "## Equal Dimension Means Equal Space\n"
+"\n"
+"Suppose you have a subspace `U` of a finite-dimensional vector space `V`.\n"
+"If `U` has the same dimension as `V`, can it be smaller?\n"
+"No—if `U` filled up the whole space dimensionally, it *is* the whole space!\n"
+"\n"
+"This level asks you to prove: If `U` is a subspace and `dim U = dim V`, then `U = V`.\n"
+"\n"
+"## Summary\n"
+"If a subspace `U` has the same dimension as the whole space `V` (and `V` is finite-dimensional), then `U` must be all of `V`. In other words: if you already fill the whole space, you can't be a proper part!\n"
+"\n"
+"## Key idea\n"
+"- Use the contrapositive: if `U ≠ V`, then `dim U < dim V`.\n"
+"- This follows because any *proper* subspace has strictly smaller dimension.\n"
+"\n"
+"This is an important structural result for finite-dimensional vector spaces."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level05
+msgid ""
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level05
+msgid "If `U` is a subspace of `V` and their dimensions agree, then `U = V`."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level05
+msgid "If a subspace has the same dimension as the whole space, it must actually *be* the whole space!"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level06
+msgid "Direct Sum Decomposition"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level06
+msgid "## Direct Sum Decomposition\n"
+"\n"
+"If you have a subspace `U` of a finite-dimensional vector space `V`,\n"
+"can you always find another subspace `W` such that every vector in `V` can be uniquely written as a sum of something in `U` and something in `W`?\n"
+"Yes! Such a decomposition is called a **direct sum**.\n"
+"\n"
+"You will prove: for any subspace `U`, there is a subspace `W` with `V = U ⊕ W`,\n"
+"and the dimensions add: `dim V = dim U + dim W`.\n"
+"\n"
+"## Summary\n"
+"Every subspace `U` of a finite-dimensional vector space `V` has a complement: there exists a subspace `W` so that `V = U ⊕ W`.\n"
+"The dimensions also add: `dim V = dim U + dim W`.\n"
+"\n"
+"## Key idea\n"
+"- Pick a basis for `U` and extend it to a basis for `V` by adding new vectors.\n"
+"- The span of the new vectors gives a subspace `W` such that `V = U ⊕ W`.\n"
+"\n"
+"This level guides you to show every subspace has a direct sum complement, and the dimension formula."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level06
+msgid ""
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level06
+msgid "Given a subspace `U`, there is a subspace `W` such that `V = U ⊕ W` and the dimension formula holds."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level06
+msgid "Every subspace has a direct sum complement, and dimensions always add: `dim V = dim U + dim W`!"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level07
+msgid "Coordinates Representation"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level07
+msgid "## Coordinates with Respect to a Basis\n"
+"\n"
+"In linear algebra, a **basis** of a vector space allows us to represent every vector in the space as a combination of the basis vectors. Imagine we have chosen a specific basis `B : Fin n → V` for an `n`-dimensional vector space `V`. How can we describe an arbitrary vector `v` in `V` in terms of this basis? By listing its **coordinates** relative to `B` — essentially, how much of each basis vector is needed to reconstruct `v`. \n"
+"\n"
+"In this level, we introduce a formal coordinate map that takes any vector to its coordinate tuple, and we prove that these coordinates provide a unique representation of the vector.\n"
+"\n"
+"## Summary\n"
+"**Coordinates with Respect to a Basis:** We prove that once a basis `B` of `V` is fixed, every vector `v` in `V` can be expressed *uniquely* as a linear combination of the basis vectors. We formalize this by defining the function `coord`, which returns the coefficients of `v` with respect to `B`. The main theorem, `coord_representation`, then states that `v` equals the sum of its coordinates times the corresponding basis elements. This confirms that coordinates give a one-to-one correspondence between vectors in `V` and their coordinate tuples.\n"
+"\n"
+"## Key idea\n"
+"- We obtain the coordinate function `coord` by using the basis's `repr` function. This gives each vector `v` a tuple of `n` scalars corresponding to its components along the basis vectors in `B`.\n"
+"- Because `B` spans `V`, every vector can be expressed as a sum of basis elements with appropriate coefficients. In fact, the library lemma `B.sum_repr` states that `∑ i, coord v i • B i = v`, directly reconstructing `v` from its coordinates.\n"
+"- The representation is *unique* because `B` is linearly independent. If two different coordinate lists produced the same vector `v`, their difference would give a nonzero linear combination of basis vectors equal to zero — contradicting linear independence. Hence, no vector has two distinct sets of coordinates."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level07
+msgid ""
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level07
+msgid "Every vector equals the sum of its coordinates times the corresponding basis elements."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld.Level07
+msgid "By choosing a basis for `V`, we've established that any vector can be captured by a finite list of scalars — its coordinates. In other words, every vector corresponds to a unique tuple of coordinates (and vice versa) with respect to the chosen basis. This underpins the idea of coordinate systems in linear algebra, allowing us to seamlessly move between abstract vectors and their concrete representations."
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld
+msgid "Linear Maps World"
+msgstr ""
+
+#: Game.Levels.LinearMapsWorld
+msgid "Welcome to Linear Maps World! This world will introduce you to formalizing proofs about linear maps\n"
+"in Lean. This world includes proofs about bases and dimension, for example if a subspace has the same\n"
+"dimension as the whole space, it is the whole space."
 msgstr ""
 
 #: Game
