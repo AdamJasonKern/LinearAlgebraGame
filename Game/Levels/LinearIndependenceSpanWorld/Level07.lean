@@ -38,7 +38,7 @@ goal into two subgoals: one where you have a hypothesis `hv : v = 0`, and anothe
 ### The `funext` tactic
 The `funext` tactic lets you prove statements about functions. It works similarly to the `intro` tactic,
 where you introduce an arbitrary object, but instead of introducing from a `∀` statment, it works if
-you have a goal of the form `f = g`, where `funext x` will chang ethe goal to the form `f x = g x`, and
+you have a goal of the form `f = g`, where `funext x` will change the goal to the form `f x = g x`, and
 give you an arbitrary `x` in the domain of `f` and `g`.
 
 ### New theorems
@@ -192,12 +192,12 @@ Statement linear_combination_unique
 f = g := by
   Hint "First, note that you have a goal of proving two functions equal. Try to instead prove it for
   an arbitrary value."
-  Hint (hidden := true) "Try `funext v`"
-  funext v
+  Hint (hidden := true) "Try `funext x`"
+  funext x
 
-  Hint "Now, we can split into cases where either v ∈ (s ∪ t) or not."
-  Hint (hidden := true) "Try `by_cases h : v ∈ (s ∪ t)`"
-  by_cases h : v ∈ (s ∪ t)
+  Hint "Now, we can split into cases where either x ∈ (s ∪ t) or not."
+  Hint (hidden := true) "Try `by_cases h : x ∈ (s ∪ t)`"
+  by_cases h : x ∈ (s ∪ t)
   Hint (hidden := true) "Try `unfold linear_independent_v at hS`"
   unfold linear_independent_v at hS
 
@@ -239,21 +239,15 @@ f = g := by
     don't have. Try proving these hypotheses with a `have` statement."
     Hint (hidden := true) "Try `  have hfprod0 : ∀ v ∈ s ∪ t,  v ∉ s → f v • v = 0 := by`"
     have hfprod0 : ∀ v ∈ s ∪ t,  v ∉ s → f v • v = 0 := by
-      Hint (hidden := true) "Try `    intros v hv1 hv2`"
+      Hint (hidden := true) "Try `intros v _hv1 hv2; rw[hf0 v hv2]; exact zero_smul_v K V v`"
       intros v _hv1 hv2
-      Hint (hidden := true) "Try `    rw[hf0 v hv2]`"
-      rw[hf0 v hv2]
-      Hint (hidden := true) "Try `    exact zero_smul_v K V v`"
-      exact zero_smul_v K V v
+      rw[hf0 v hv2, zero_smul_v]
 
-    Hint (hidden := true) "Try `  have hgprod0 : ∀ v ∈ s ∪ t,  v ∉ t → g v • v = 0 := by`"
+    Hint (hidden := true) "Try `have hgprod0 : ∀ v ∈ s ∪ t,  v ∉ t → g v • v = 0 := by`"
     have hgprod0 : ∀ v ∈ s ∪ t,  v ∉ t → g v • v = 0 := by
-      Hint (hidden := true) "Try `    intros v hv1 hv2`"
+      Hint (hidden := true) "Try `intros v _hv1 hv2; rw[hg0 v hv2]; exact zero_smul_v K V v`"
       intros v _hv1 hv2
-      Hint (hidden := true) "Try `    rw[hg0 v hv2]`"
-      rw[hg0 v hv2]
-      Hint (hidden := true) "Try `    exact zero_smul_v K V v`"
-      exact zero_smul_v K V v
+      rw[hg0 v hv2, zero_smul_v]
 
     Hint (hidden := true) "Try `  rw [(sum_subset (f := fun v => f v • v) (subset_union_left s t) hfprod0).symm]`"
     rw [(sum_subset (f := fun v => f v • v) (subset_union_left s t) hfprod0).symm]
@@ -261,31 +255,28 @@ f = g := by
     rw [(sum_subset (f := fun v => g v • v) (subset_union_right s t) hgprod0).symm]
 
     Hint "Now, we use the fact that the two sums are equal to finish the proof of the lemma"
-    Hint (hidden := true) "Try `  rw[heq]`"
+    Hint (hidden := true) "Try `rw[heq]; simp`"
     rw[heq]
-    Hint (hidden := true) "Try `  simp`"
     simp
 
   Hint "Now, we simply have to prove the requirements of hS"
   Hint (hidden := true) "Try `specialize hS lemmaSumDiffEqZero`"
   specialize hS lemmaSumDiffEqZero
 
-  Hint (hidden := true) "Try `specialize hS v h`"
-  specialize hS v h
+  Hint (hidden := true) "Try `specialize hS x h`"
+  specialize hS x h
 
-  Hint "We know now from hS that f v - g v = 0, and one of the new theorems lets us finish the proof.
+  Hint "We know now from hS that f x - g x = 0, and one of the new theorems lets us finish the proof.
   Remember that if you have a proof of `↔`, `.1` will be a proof of the forwards direction and `.2` the
   backwards."
   Hint (hidden := true) "Try `exact sub_eq_zero.1 hS`"
   exact sub_eq_zero.1 hS
 
-  Hint (hidden := true) "Try `rw[not_mem_union] at h`"
+  Hint (hidden := true) "Try `rw[not_mem_union] at h; cases' h with hS hT; rw[hf0 x hS, hg0 x hT]`"
   rw[not_mem_union] at h
-  Hint (hidden := true) "Try `cases' h with hS hT`"
   cases' h with hS hT
-
-  Hint (hidden := true) "Try `rw[hf0 v hS, hg0 v hT]`"
-  rw[hf0 v hS, hg0 v hT]
+  rw[hf0 x hS, hg0 x hT]
+  rfl
 
 Conclusion "Congratulations! The next two levels are optional challenges, and although they are
 difficult, if you were able to complete this level, you should be able to complete the next two."
