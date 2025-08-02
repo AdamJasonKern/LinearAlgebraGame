@@ -1,28 +1,26 @@
+-- Test with minimal single world to reproduce finalizeExtensions deadlock
 import Game.Levels.TutorialWorld
-import Game.Levels.VectorSpaceWorld
-import Game.Levels.LinearIndependenceSpanWorld
-import Game.Levels.InnerProductWorld
-import Game.Levels.LinearMapsWorld
--- Explicit import for InnerProductSpace_v class and theorem aliases  
-import Game.Levels.InnerProductWorld.LemmasAndDefs
+-- Other worlds disabled to isolate the issue
+-- import Game.Levels.VectorSpaceWorld
+-- import Game.Levels.LinearIndependenceSpanWorld
+-- import Game.Levels.InnerProductWorld
+-- import Game.Levels.LinearMapsWorld
 
--- Here's what we'll put on the title screen
-Title "Linear Algebra Game"
+Title "Linear Algebra Game"  
 Introduction
 "
 # Welcome to the Linear Algebra Game!
 
-This game works as a learning tool for linear algebra,
-based on the textbook \"Linear Algebra Done Right\" by Sheldon Axler. It also serves as an
-introduction to Lean 4, a proof assistant that provides an environment to encode proofs formally.
+**Note**: This is currently running with only TutorialWorld enabled due to deployment issues.
 
-Proofs in Lean can are written in precise syntax, using tactics and theorems, and can be algorithmically
-checked for correctness by a computer.
+Click on \"Tutorial World\" to test if the levels load properly.
 
-This game covers many areas of linear algebra, including vector spaces, linear independence, bases,
-linear mappings, and isomorphisms.
+**Expected behavior**: 
+- You should be able to click into Tutorial World 
+- Then click on Level 1 to test the Lean server
+- If it hangs with a blue loading circle, that's the finalizeExtensions bug we're trying to fix
 
-To start, click on \"Tutorial World\"
+The complete game with all worlds is available at: https://github.com/ZRTMRH/LinearAlgebraGame
 "
 
 Info "
@@ -53,7 +51,9 @@ CaptionLong "You should use this game as a template for your own game and add yo
 -- Prerequisites "" -- add this if your game depends on other games
 -- CoverImage "images/cover.png"
 
--- Dependency VectorSpaceWorld → LinearIndependenceSpanWorld
+-- No world imports to test if the issue is import-related
+-- This should create an empty game that just displays the title screen
+-- If this works, we can gradually add worlds back
 
 namespace LinearAlgebraGame
 

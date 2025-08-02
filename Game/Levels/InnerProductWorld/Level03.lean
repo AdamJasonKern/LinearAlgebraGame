@@ -14,6 +14,8 @@ you multiply by the complex norm of the scalar. The proof here takes multiple st
 is to square each side, getting rid of the square roots. Then, you can use multiple theorems to rewrite
 the goal to be solved by an exact statement.
 
+**Note:** This level may experience a hint display issue where hints repeat. If you see the same hint multiple times, the level is still working correctly - just continue with your proof as normal.
+
 ## The `ring` tactic
 `ring` again acts very similar to `linarith`, but it works for equations using rings. Rings are basically
 objects where you can multiply and divide, for example, the complex numbers.
@@ -24,8 +26,8 @@ of what you are rewriting, as you need to do with `.symm` The syntax looks like 
 
 ## Note on `InnerProductSpace_v`
 Some of the axioms and theorems you have share names with other theorems. If you run into a bug saying
-\"Ambiguous, possible interpretations\", try specifying the exact name of your theorem with `InnerProductSpace_v.`
-in from of the theorem.
+\"Ambiguous, possible interpretations\", try specifying the exact name of your theorem by putting `InnerProductSpace_v.`
+in front of the theorem name (e.g., `InnerProductSpace_v.inner_smul_left`).
 "
 
 /--
@@ -93,33 +95,46 @@ TheoremDoc LinearAlgebraGame.norm_sq_eq as "norm_sq_eq" in "Inner Product"
 
 NewTactic ring
 
-NewTheorem norm_nonneg Left.mul_nonneg sq_eq_sq mul_assoc Complex.mul_conj Complex.normSq_eq_norm_sq Complex.re_ofReal_mul
+LemmaDoc Complex.add_re as "Complex.add_re" in "Complex Numbers"
+LemmaDoc Complex.conj_re as "Complex.conj_re" in "Complex Numbers"
+LemmaDoc add_nonneg as "add_nonneg" in "Real Numbers"
+LemmaDoc le_trans as "le_trans" in "Inequalities"
+LemmaDoc mul_nonneg as "mul_nonneg" in "Real Numbers"
+LemmaDoc add_sq as "add_sq" in "Algebra"
+LemmaDoc Real.sqrt_pos as "Real.sqrt_pos" in "Real Numbers"
+
+NewTheorem norm_nonneg Left.mul_nonneg sq_eq_sq mul_assoc Complex.mul_conj Complex.normSq_eq_norm_sq Complex.re_ofReal_mul Complex.add_re Complex.conj_re add_nonneg le_trans mul_nonneg add_sq Real.sqrt_pos
 
 variable {V : Type} [AddCommGroup V] [VectorSpace ℂ V] [InnerProductSpace_v V]
 open Function Set VectorSpace Real InnerProductSpace_v Complex
 
 
 Statement sca_mul (a : ℂ) (v: V) : ‖a • v‖= ‖a‖ * ‖v‖ := by
-  Hint "Since we know many theorems about norms now, perhaps is is better to hold off on unfolding.
-  For now, try to find a way to square both sides of the goal."
+  Hint "First, establish non-negativity of the norms to use the square equality theorem."
   Hint (hidden := true) "Try `have h1 := norm_nonneg a`"
   have h1 := norm_nonneg a
   Hint (hidden := true) "Try `have h2 := norm_nonneg_v v`"
   have h2 := norm_nonneg_v v
-  Hint (hidden := true) "Try `have g1 := Left.mul_nonneg {h1} {h2}`"
+  
+  Hint "Combine these to get non-negativity of the product."
+  Hint (hidden := true) "Try `have g1 := Left.mul_nonneg h1 h2`"
   have g1 := Left.mul_nonneg h1 h2
+  
+  Hint "Also get non-negativity of the left side."
   Hint (hidden := true) "Try `have g2 := norm_nonneg_v (a • v)`"
   have g2 := norm_nonneg_v (a • v)
-  Hint (hidden := true) "Try `apply (sq_eq_sq {g2} {g1}).1`"
+  
+  Hint "Now apply the square equality theorem to reduce to proving the squared version."
+  Hint (hidden := true) "Try `apply (sq_eq_sq g2 g1).1`"
   apply (sq_eq_sq g2 g1).1
 
-  Hint "Use `ring` to simplify the goal"
-  Hint (hidden := true) "Try `ring`"
+  Hint "Use `ring_nf` to simplify the goal"
+  Hint (hidden := true) "Try `ring_nf`"
   ring_nf
 
   Hint "Use our theorems to simplify the goal. Also, remember the `exact?`
   tactic can help you find when to use `exact`."
-
+  Hint (hidden := true) "Try `repeat rw[norm_sq_eq]`"
   repeat rw[norm_sq_eq]
   Hint (hidden := true) "Try `rw [InnerProductSpace_v.inner_smul_left]`"
   rw [InnerProductSpace_v.inner_smul_left]
